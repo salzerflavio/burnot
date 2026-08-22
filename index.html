@@ -152,46 +152,6 @@
   .section-sub{color:var(--ink-muted);font-size:13.5px;margin:10px 0 22px;}
 
 
-  /* ---------- Início / Journal ---------- */
-  .journal-mini{max-width:560px;margin:64px auto 0;display:flex;flex-direction:column;gap:12px;}
-  .journal-mini-feed{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding:0 2px;}
-  .journal-mini-feed:empty{display:none;}
-  .journal-empty{text-align:center;color:var(--ink);font-family:var(--font-display);font-weight:700;font-size:20px;line-height:1.35;padding:6px 4px 4px;}
-  .journal-bubble-row{display:flex;flex-direction:column;align-items:flex-end;}
-  .journal-bubble{max-width:92%;background:var(--surface-2);border:1px solid var(--border);border-radius:14px 14px 3px 14px;padding:8px 11px;font-size:12.5px;line-height:1.4;color:var(--ink);white-space:pre-wrap;}
-  .journal-meta{display:flex;align-items:center;gap:8px;margin-top:3px;}
-  .journal-meta span{font-size:10px;color:var(--ink-muted);font-weight:600;}
-  .journal-del{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:10.5px;line-height:1;padding:0;}
-  .journal-del:hover{color:var(--status-flag);}
-  .journal-mini-box{
-    display:flex;align-items:flex-end;gap:10px;background:#000;border:1px solid var(--border-strong);
-    border-radius:26px;padding:18px 18px 18px 24px;transition:border-color .15s;
-  }
-  .journal-mini-box:focus-within{border-color:var(--border-strong);outline:1px solid var(--ink);outline-offset:1px;}
-  .journal-mini-box textarea{
-    flex:1;resize:none;min-height:64px;max-height:220px;background:transparent;border:none;
-    color:var(--accent-ink);padding:4px 0;font-family:var(--font-body);font-size:16.5px;line-height:1.5;
-  }
-  .journal-mini-box textarea::placeholder{color:var(--accent-ink-muted);}
-  .journal-mini-box textarea:focus{outline:none;}
-  .journal-mic{
-    width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    background:transparent;border:1px solid rgba(247,245,239,.28);color:var(--accent-ink);cursor:pointer;transition:background .15s,color .15s,border-color .15s;
-  }
-  .journal-mic svg{width:16px;height:16px;}
-  .journal-mic:hover{background:rgba(247,245,239,.14);}
-  .journal-mic.recording{background:var(--status-flag);border-color:var(--status-flag);color:#fff;animation:journalPulse 1.2s ease-in-out infinite;}
-  .journal-mic[disabled]{opacity:.35;cursor:not-allowed;}
-  @keyframes journalPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,75,75,.45);}50%{box-shadow:0 0 0 7px rgba(239,75,75,0);}}
-  .journal-mini-send{
-    width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    background:var(--accent-ink);color:var(--ink);border:none;cursor:pointer;transition:opacity .15s;
-  }
-  .journal-mini-send:hover{opacity:.85;}
-  .journal-mini-send svg{width:16px;height:16px;}
-  .journal-mini-copy{align-self:flex-end;background:none;border:none;color:var(--ink-muted);font-size:11px;cursor:pointer;padding:2px 4px;}
-  .journal-mini-copy:hover{color:var(--ink);}
-
   /* ---------- Calendar ---------- */
   .cal-toolbar{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
   .cal-nav{display:flex;align-items:center;gap:4px;}
@@ -703,17 +663,8 @@
     <div class="sidebar-product">Burnot</div>
   </div>
   <nav class="side-nav" aria-label="Navegação principal">
-    <div class="side-item-wrap" id="navWrapInicio">
-      <button class="side-item active" data-view="inicio" role="tab" aria-selected="true" title="Atualizações">
-        <span class="side-badge" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4.5 4V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z"/><path d="M8 10h8M8 13h5"/></svg>
-        </span>
-        <span class="side-label">Atualizações</span>
-      </button>
-    </div>
-    <div class="side-divider" role="separator" aria-orientation="horizontal"></div>
     <div class="side-item-wrap">
-      <button class="side-item" data-view="calendario" role="tab" aria-selected="false" title="Calendário">
+      <button class="side-item active" data-view="calendario" role="tab" aria-selected="true" title="Calendário">
         <span class="side-badge" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
         </span>
@@ -779,25 +730,8 @@
 </aside>
 
 <div class="app-shell">
-  <!-- INÍCIO -->
-  <section class="view active" id="view-inicio">
-    <div class="journal-mini">
-      <div class="journal-mini-feed" id="journalFeed"></div>
-      <div class="journal-mini-box">
-        <textarea id="journalInput" placeholder="Escreva uma atualização do dia…" rows="1"></textarea>
-        <button class="journal-mic" id="journalMic" type="button" title="Ditar por voz" aria-label="Ditar por voz">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M9 21h6"/></svg>
-        </button>
-        <button class="journal-mini-send" id="journalSend" type="button" title="Enviar" aria-label="Enviar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
-        </button>
-      </div>
-      <button class="journal-mini-copy" id="journalCopy" type="button">Copiar tudo pra colar no Claude</button>
-    </div>
-  </section>
-
   <!-- CALENDÁRIO -->
-  <section class="view" id="view-calendario">
+  <section class="view active" id="view-calendario">
     <div class="section-head"><h1>Calendário</h1><img class="brand-logo head-mark" alt="Burnot"></div>
     <div class="section-sub">Quem tá de day off, e em que pé tá o pedido.</div>
     <div class="cal-poster">
@@ -1447,7 +1381,6 @@
     dayoffs: [],
     vacations: [],
     updates: [],
-    journal: [],
     achievements: [],
     bigCouncil: []
   };
@@ -1473,7 +1406,6 @@
       sb.from('vacations').select('*'),
       sb.from('updates').select('*'),
       sb.from('achievements').select('*'),
-      sb.from('journal').select('*').order('ts', {ascending:false}),
       isAdmin ? Promise.resolve({data:[]}) : sb.rpc('team_calendar')
     ]);
 
@@ -1491,8 +1423,7 @@
     var vacationRows = results[5].data || [];
     var updateRows = results[6].data || [];
     var achievementRows = results[7].data || [];
-    var journalRows = results[8].data || [];
-    var teamCalendarRows = results[9].data || [];
+    var teamCalendarRows = results[8].data || [];
 
     var notesByPerson = {};
     notesRows.forEach(function(n){ notesByPerson[n.person_id] = n; });
@@ -1545,9 +1476,6 @@
     });
     state.achievements = achievementRows.map(function(a){
       return {id:a.id, personId:a.person_id, date:a.date, title:a.title, icon:a.icon};
-    });
-    state.journal = journalRows.map(function(j){
-      return {id:j.id, ts:j.ts, text:j.text};
     });
 
     selectedPersonId = currentUser.personId || (state.team.length ? state.team[0].id : null);
@@ -1614,7 +1542,6 @@
     if(name === 'horas') renderHoras();
     if(name === 'time') renderTime();
     if(name === 'calendario') renderCalendar();
-    if(name === 'inicio') renderInicio();
   }
   document.querySelectorAll('.side-item').forEach(function(btn){
     btn.addEventListener('click', function(){ switchView(btn.dataset.view); });
@@ -1650,92 +1577,6 @@
       timeList.appendChild(b);
     });
   }
-
-  /* ---------------- Início / Journal ---------------- */
-  function formatJournalTs(iso){
-    var d = new Date(iso);
-    var dias = ['dom','seg','ter','qua','qui','sex','sáb'];
-    return dias[d.getDay()]+' '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' · '+pad(d.getHours())+':'+pad(d.getMinutes());
-  }
-  function renderInicio(){
-    var feed = document.getElementById('journalFeed');
-    if(!feed) return;
-    if(!state.journal.length){
-      feed.innerHTML = '<div class="journal-empty">Escreva a atualização do dia aqui embaixo.</div>';
-      return;
-    }
-    var sorted = state.journal.slice().sort(function(a,b){ return a.ts.localeCompare(b.ts); });
-    feed.innerHTML = sorted.map(function(j){
-      return '<div class="journal-bubble-row" data-id="'+j.id+'">'+
-        '<div class="journal-bubble">'+escapeHtml(j.text)+'</div>'+
-        '<div class="journal-meta"><span>'+formatJournalTs(j.ts)+'</span><button class="journal-del" data-journal-del="'+j.id+'" aria-label="Remover">Remover</button></div>'+
-      '</div>';
-    }).join('');
-    feed.scrollTop = feed.scrollHeight;
-    feed.querySelectorAll('[data-journal-del]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        state.journal = state.journal.filter(function(j){ return j.id!==btn.dataset.journalDel; });
-        
-        renderInicio();
-      });
-    });
-  }
-  var journalInputEl = document.getElementById('journalInput');
-  document.getElementById('journalSend').addEventListener('click', function(){
-    var text = journalInputEl.value.trim();
-    if(!text) return;
-    state.journal.push({id:uid(), ts:new Date().toISOString(), text:text});
-    journalInputEl.value = '';
-    
-    renderInicio();
-  });
-  journalInputEl.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' && (e.metaKey || e.ctrlKey)){ e.preventDefault(); document.getElementById('journalSend').click(); }
-  });
-  document.getElementById('journalCopy').addEventListener('click', function(){
-    if(!state.journal.length){ toast('Ainda não tem nenhuma atualização pra copiar.'); return; }
-    var sorted = state.journal.slice().sort(function(a,b){ return a.ts.localeCompare(b.ts); });
-    var text = sorted.map(function(j){ return '['+formatJournalTs(j.ts)+'] '+j.text; }).join('\n');
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){ toast('Copiado — cole numa conversa com o Claude.'); }, function(){ toast('Não consegui copiar automaticamente. Selecione o texto manualmente.'); });
-    } else {
-      toast('Copiar automático não é suportado neste navegador.');
-    }
-  });
-  (function setupJournalMic(){
-    var micBtn = document.getElementById('journalMic');
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(!SR){ micBtn.disabled = true; micBtn.title = 'Ditado por voz não é suportado neste navegador'; return; }
-    var recognition = new SR();
-    recognition.lang = 'pt-BR';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    var listening = false;
-    var baseText = '';
-    recognition.addEventListener('result', function(e){
-      var interim = '', final = '';
-      for(var i=e.resultIndex;i<e.results.length;i++){
-        var t = e.results[i][0].transcript;
-        if(e.results[i].isFinal) final += t; else interim += t;
-      }
-      if(final) baseText = (baseText + ' ' + final).trim();
-      journalInputEl.value = (baseText + ' ' + interim).trim();
-    });
-    recognition.addEventListener('end', function(){
-      listening = false;
-      micBtn.classList.remove('recording');
-    });
-    recognition.addEventListener('error', function(){
-      listening = false;
-      micBtn.classList.remove('recording');
-    });
-    micBtn.addEventListener('click', function(){
-      if(listening){ recognition.stop(); listening=false; micBtn.classList.remove('recording'); return; }
-      baseText = journalInputEl.value;
-      try{ recognition.start(); listening = true; micBtn.classList.add('recording'); }
-      catch(err){ /* already started */ }
-    });
-  })();
 
   /* ---------------- Calendar ---------------- */
   function renderCalendar(){
@@ -3242,10 +3083,6 @@
     var flyoutTime = document.getElementById('flyoutTime');
     if(flyoutRel) flyoutRel.style.display = isAdmin ? '' : 'none';
     if(flyoutTime) flyoutTime.style.display = isAdmin ? '' : 'none';
-
-    // Colaborador também não tem a tela de Atualizações (feed interno pra alimentar o Claude) — isso é ferramenta de admin.
-    var navInicio = document.getElementById('navWrapInicio');
-    if(navInicio) navInicio.style.display = isAdmin ? '' : 'none';
   }
 
   var bootedUserId = null;
@@ -3276,13 +3113,8 @@
     hideAuthGate();
     hideSetPasswordGate();
     renderFlyouts();
-    renderCalendar();
-    if(currentUser.role === 'admin'){
-      renderInicio();
-    } else {
-      // Colaborador não tem a aba Atualizações — abre direto no Calendário.
-      switchView('calendario');
-    }
+    // Todo mundo (admin e colaborador) abre direto no Calendário.
+    switchView('calendario');
   }
 
   if(sb){
