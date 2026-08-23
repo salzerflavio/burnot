@@ -6,14 +6,14 @@
 <title>Burnot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     /* Sistema de 2 cores: preto + cinza clarinho. Status (calendário/cansaço) seguem coloridos, de propósito. */
     --bg:#e9e7ea;
     --page:#e9e7ea;
     --surface:#e9e7ea;
-    --surface-2:#f2f1f0;
+    --surface-2:#dcdadd;
     --surface-3:#dcdadd;
     --border:rgba(0,0,0,.13);
     --border-strong:rgba(0,0,0,.28);
@@ -34,9 +34,9 @@
     --radius-m:18px;
     --radius-l:28px;
     --radius-photo:8px;
-    --font-display:'Aktiv Grotesk', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-accent:'Aktiv Grotesk', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-body:'Aktiv Grotesk', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-accent:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-body:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-mono:'Space Grotesk', 'Roboto Mono', ui-monospace, "SFMono-Regular", monospace;
     --ease:cubic-bezier(.22,1,.36,1);
     color-scheme: light;
@@ -304,7 +304,7 @@
   .dayoff-row:last-child{border-bottom:none;}
   .status-badge{
     display:inline-flex;align-items:center;gap:6px;padding:4px 9px;font-size:11px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.03em;background:var(--ink);
+    text-transform:uppercase;letter-spacing:.03em;background:var(--ink);width:118px;flex-shrink:0;box-sizing:border-box;
   }
   .status-badge.status-pending{color:var(--status-pending);}
   .status-badge.status-approved{color:var(--status-approved);}
@@ -423,11 +423,11 @@
   }
   .profile-main{padding:26px 28px;overflow-x:hidden;}
 
-  .mini-bio{font-family:var(--font-accent);font-weight:400;font-size:15.5px;line-height:1.55;color:var(--ink-secondary);margin:0;}
+  .mini-bio{font-family:var(--font-mono);font-weight:400;font-size:14.5px;line-height:1.6;color:var(--ink-secondary);margin:0;text-transform:none;letter-spacing:0;}
   .bio-text{
     width:100%;background:var(--surface-2);border:1px solid var(--border);
-    color:var(--ink);border-radius:var(--radius-s);padding:12px;font-family:var(--font-accent);font-weight:400;
-    font-size:14.5px;line-height:1.5;white-space:pre-wrap;
+    color:var(--ink);border-radius:var(--radius-s);padding:12px;font-family:var(--font-mono);font-weight:400;
+    font-size:13.5px;line-height:1.6;white-space:pre-wrap;text-transform:none;letter-spacing:0;
   }
   .bio-text-empty{color:var(--ink-muted);}
 
@@ -457,6 +457,23 @@
   .dc-feedback-list.strengths li::before{background:var(--status-approved);}
   .dc-feedback-list.growth li::before{background:var(--status-pending);}
   @media (max-width:860px){ .dc-feedback-grid{grid-template-columns:1fr;} }
+
+  /* ---------- Big Council: registro do dia + cabeçalho de ideia ---------- */
+  .bc-session-card{margin-bottom:22px;}
+  .bc-highlight{margin:14px 0 18px;padding:14px 16px;background:var(--ink);}
+  .bc-highlight-label{display:block;font-family:var(--font-mono);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);opacity:.65;margin-bottom:6px;}
+  .bc-highlight-text{font-family:var(--font-mono);font-size:13.5px;line-height:1.55;color:var(--accent-ink);margin:0;}
+  .bc-idea-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px;}
+  .bc-idea-title-wrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .bc-idea-title-wrap h3{margin:0;font-family:var(--font-display);font-size:19px;font-weight:700;text-transform:uppercase;}
+  .bc-idea-client{font-family:var(--font-mono);font-weight:400;font-size:12px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.04em;}
+  .bc-idea-date{display:block;width:100%;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+  .bc-score-badge{display:inline-flex;align-items:baseline;gap:2px;background:var(--ink);padding:6px 12px;font-family:var(--font-accent);font-weight:800;font-size:19px;flex-shrink:0;}
+  .bc-score-badge small{font-family:var(--font-mono);font-weight:600;font-size:10px;text-transform:uppercase;opacity:.7;}
+  .bc-score-badge.status-approved{color:var(--status-approved);}
+  .bc-score-badge.status-pending{color:var(--status-pending);}
+  .bc-score-badge.status-flag{color:var(--status-flag);}
+  .bc-score-badge.status-none{color:var(--ink-muted);}
 
   /* ---------- Conquistas (achievement trophies) ---------- */
   .achv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px;margin-bottom:18px;}
@@ -534,7 +551,7 @@
     font-family:var(--font-accent);font-weight:800;font-size:20px;color:var(--ink);width:34px;flex-shrink:0;line-height:1.3;
   }
   .perf-legend-label{display:block;font-weight:700;font-size:13px;}
-  .perf-legend-just{display:block;color:var(--ink-muted);font-size:12.5px;line-height:1.45;margin-top:2px;}
+  .perf-legend-just{display:block;color:var(--ink-muted);font-size:12.5px;line-height:1.5;margin-top:2px;font-family:var(--font-mono);text-transform:none;letter-spacing:0;}
   .wordcloud-empty{color:var(--ink-muted);font-size:14px;padding:18px 0;}
 
   /* ---- Manual metrics (Técnica / Fome / Coragem) ---- */
@@ -581,15 +598,15 @@
   .segmented{display:flex;gap:6px;}
   .segmented.disabled .seg-opt{cursor:default;opacity:.55;pointer-events:none;}
   .seg-opt{flex:1;text-align:center;padding:9px 6px;border-radius:var(--radius-s);border:1px solid var(--border-strong);background:var(--surface);cursor:pointer;font-size:12px;font-weight:700;color:var(--ink-secondary);transition:all .2s;}
-  .seg-opt.sel-pending.selected{background:var(--status-pending-bg);border-color:var(--status-pending);color:var(--status-pending);}
-  .seg-opt.sel-approved.selected{background:var(--status-approved-bg);border-color:var(--status-approved);color:var(--status-approved);}
-  .seg-opt.sel-flag.selected{background:var(--status-flag-bg);border-color:var(--status-flag);color:var(--status-flag);}
+  .seg-opt.sel-pending.selected{background:var(--ink);border-color:var(--ink);color:var(--status-pending);}
+  .seg-opt.sel-approved.selected{background:var(--ink);border-color:var(--ink);color:var(--status-approved);}
+  .seg-opt.sel-flag.selected{background:var(--ink);border-color:var(--ink);color:var(--status-flag);}
   .modal-actions{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px;}
 
   .modal-alert{display:none;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:var(--radius-s);font-size:12.5px;line-height:1.45;font-weight:600;margin-bottom:14px;animation:alertIn .22s var(--ease);}
   .modal-alert.show{display:flex;}
-  .modal-alert.warn{background:var(--status-flag-bg);color:var(--status-flag);border:1px solid rgba(255,0,153,.4);}
-  .modal-alert.info{background:var(--status-approved-bg);color:var(--status-approved);border:1px solid rgba(51,255,0,.4);}
+  .modal-alert.warn{background:var(--ink);color:var(--status-flag);border:1px solid var(--ink);}
+  .modal-alert.info{background:var(--ink);color:var(--status-approved);border:1px solid var(--ink);}
   .modal-alert .ico{flex-shrink:0;font-size:15px;line-height:1;}
   @keyframes alertIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 
@@ -683,6 +700,14 @@
   .achv-icon{border:1.5px solid var(--ink);}
   .legend-dot{width:8px;height:8px;}
   .fatigue-bar{width:28px;}
+
+  /* Curtos = caps na fonte padrão. Longos (bio, feedbacks, justificativas) ficam
+     normais na fonte mono, já tratado direto em .mini-bio/.bio-text/.perf-legend-just. */
+  .rule, .rules-card h2, .dc-feedback-list li, .report-name, .profile-name-input,
+  .block-head h3, .achv-title, .report-empty h2, .cal-empty h2, .metric-block-head h4,
+  .btn, .toast{
+    text-transform:uppercase;
+  }
 </style>
 </head>
 <body>
@@ -1442,7 +1467,8 @@
     vacations: [],
     updates: [],
     achievements: [],
-    bigCouncil: []
+    bigCouncil: [],
+    bigCouncilSessions: {}
   };
   var FEEDBACK_AXES = ['felicidade','tecnica','cultura','fome','coragem','senioridade','relacionamento','organizacao'];
   var BIG_COUNCIL_PAIRS = [
@@ -1469,6 +1495,7 @@
       sb.from('updates').select('*'),
       sb.from('achievements').select('*'),
       sb.from('big_council_ideas').select('*'),
+      sb.from('big_council_sessions').select('*'),
       isAdmin ? Promise.resolve({data:[]}) : sb.rpc('team_calendar')
     ]);
 
@@ -1487,7 +1514,8 @@
     var updateRows = results[6].data || [];
     var achievementRows = results[7].data || [];
     var bigCouncilRows = results[8].data || [];
-    var teamCalendarRows = results[9].data || [];
+    var bigCouncilSessionRows = results[9].data || [];
+    var teamCalendarRows = results[10].data || [];
 
     var notesByPerson = {};
     notesRows.forEach(function(n){ notesByPerson[n.person_id] = n; });
@@ -1542,7 +1570,12 @@
       return {id:a.id, personId:a.person_id, date:a.date, title:a.title, icon:a.icon};
     });
     state.bigCouncil = bigCouncilRows.map(function(i){
-      return {id:i.id, pairKey:i.pair_key, date:i.date, title:i.title, feedbackFlavio:i.feedback_flavio||'', feedbackPadilha:i.feedback_padilha||''};
+      return {id:i.id, pairKey:i.pair_key, date:i.date, title:i.title, client:i.client||'', score:(i.score===null||i.score===undefined)?null:parseFloat(i.score), feedbackFlavio:i.feedback_flavio||'', feedbackPadilha:i.feedback_padilha||''};
+    });
+
+    state.bigCouncilSessions = {};
+    bigCouncilSessionRows.forEach(function(s){
+      state.bigCouncilSessions[s.pair_key] = {id:s.id, pairKey:s.pair_key, date:s.date, highlight:s.highlight||'', feedbackFlavio:s.feedback_flavio||'', feedbackPadilha:s.feedback_padilha||''};
     });
 
     selectedPersonId = currentUser.personId || (state.team.length ? state.team[0].id : null);
@@ -1657,6 +1690,18 @@
     return null;
   }
   var bigCouncilSelectedKey = null;
+  function bcScoreBand(score){
+    if(score===null || score===undefined || isNaN(score)) return null;
+    return score>=8 ? 'approved' : (score>=5 ? 'pending' : 'flag');
+  }
+
+  function bcScoreBadgeHtml(score){
+    var band = bcScoreBand(score);
+    if(band===null) return '<span class="bc-score-badge status-none">—</span>';
+    var n = (Math.round(score*10)/10);
+    return '<span class="bc-score-badge status-'+band+'">'+n+'<small>/10</small></span>';
+  }
+
   function renderBigCouncil(){
     var isAdmin = currentUser.role === 'admin';
     var section = document.getElementById('view-bigcouncil');
@@ -1686,12 +1731,36 @@
       return;
     }
 
+    var session = state.bigCouncilSessions[pair.key] || null;
+
+    html += '<div class="report-block bc-session-card">';
+    html += '  <div class="block-head"><h3>Registro do dia</h3><span class="section-sub" style="margin:0;">'+(session && session.date ? formatBR(session.date) : 'Sem data registrada')+'</span></div>';
+    html += '  <div class="bc-highlight"><span class="bc-highlight-label">Ponto alto</span><p class="bc-highlight-text">'+(session && session.highlight ? escapeHtml(session.highlight) : 'Sem ponto alto registrado ainda.')+'</p></div>';
+    html += '  <div class="dc-feedback-grid">';
+    html += '    <div class="dc-feedback-col"><h4>Flavio</h4><p class="mini-bio">'+(session && session.feedbackFlavio ? escapeHtml(session.feedbackFlavio) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
+    html += '    <div class="dc-feedback-col"><h4>Padilha</h4><p class="mini-bio">'+(session && session.feedbackPadilha ? escapeHtml(session.feedbackPadilha) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
+    html += '  </div>';
+    if(isAdmin){
+      html += '  <button class="btn btn-ghost btn-sm" id="bcSessionEditToggle" style="margin-top:12px;">Editar registro do dia</button>';
+      html += '  <div class="inline-form bc-session-form" id="bcSessionForm" style="display:none;flex-wrap:wrap;margin-top:12px;gap:10px;">';
+      html += '    <input type="date" class="f-date" id="bcSessionDate" value="'+(session && session.date ? session.date : toISO(new Date()))+'">';
+      html += '    <textarea id="bcSessionHighlight" placeholder="Ponto alto da sessão" style="flex:1;min-width:200px;min-height:44px;font-family:inherit;padding:8px 10px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink);">'+(session?escapeHtml(session.highlight):'')+'</textarea>';
+      html += '    <textarea id="bcSessionFeedbackFlavio" placeholder="Feedback geral do Flavio" style="flex:1;min-width:200px;min-height:60px;font-family:inherit;padding:8px 10px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink);">'+(session?escapeHtml(session.feedbackFlavio):'')+'</textarea>';
+      html += '    <textarea id="bcSessionFeedbackPadilha" placeholder="Feedback geral do Padilha" style="flex:1;min-width:200px;min-height:60px;font-family:inherit;padding:8px 10px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink);">'+(session?escapeHtml(session.feedbackPadilha):'')+'</textarea>';
+      html += '    <button class="btn btn-primary btn-sm" id="bcSessionSave" style="width:100%;">Salvar registro do dia</button>';
+      html += '  </div>';
+    }
+    html += '</div>';
+
     var ideas = state.bigCouncil.filter(function(i){ return i.pairKey === pair.key; }).sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
 
     if(ideas.length){
       ideas.forEach(function(idea){
         html += '<div class="report-block bc-idea-card">';
-        html += '  <div class="block-head"><h3>'+escapeHtml(idea.title||'Ideia sem título')+'</h3><span class="section-sub" style="margin:0;">'+(idea.date?formatBR(idea.date):'')+'</span></div>';
+        html += '  <div class="bc-idea-head">';
+        html += '    <div class="bc-idea-title-wrap"><h3>'+escapeHtml(idea.title||'Ideia sem título')+'</h3>'+(idea.client ? '<span class="bc-idea-client">'+escapeHtml(idea.client)+'</span>' : '')+'<span class="bc-idea-date">'+(idea.date?formatBR(idea.date):'')+'</span></div>';
+        html += '    '+bcScoreBadgeHtml(idea.score);
+        html += '  </div>';
         html += '  <div class="dc-feedback-grid">';
         html += '    <div class="dc-feedback-col"><h4>Flavio</h4><p class="mini-bio">'+(idea.feedbackFlavio ? escapeHtml(idea.feedbackFlavio) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
         html += '    <div class="dc-feedback-col"><h4>Padilha</h4><p class="mini-bio">'+(idea.feedbackPadilha ? escapeHtml(idea.feedbackPadilha) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
@@ -1707,6 +1776,8 @@
       html += '  <div class="inline-form" style="flex-wrap:wrap;">';
       html += '    <input type="date" class="f-date" id="bcDate" value="'+toISO(new Date())+'">';
       html += '    <input type="text" class="f-project" id="bcTitle" placeholder="Título da ideia" style="flex:1;min-width:160px;">';
+      html += '    <input type="text" class="f-project" id="bcClient" placeholder="Cliente" style="flex:1;min-width:140px;">';
+      html += '    <input type="number" id="bcScore" placeholder="Nota (0-10)" min="0" max="10" step="0.5" style="width:120px;font-family:inherit;padding:9px 12px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);">';
       html += '  </div>';
       html += '  <div class="inline-form" style="flex-wrap:wrap;margin-top:8px;gap:10px;">';
       html += '    <textarea id="bcFeedbackFlavio" placeholder="Feedback do Flavio" style="flex:1;min-width:200px;min-height:60px;font-family:inherit;padding:8px 10px;border-radius:var(--radius-s);border:1px solid var(--border);background:var(--surface-2);color:var(--ink);"></textarea>';
@@ -1722,19 +1793,45 @@
       document.querySelectorAll('#bcPairRail .person-pill').forEach(function(pill){
         pill.addEventListener('click', function(){ bigCouncilSelectedKey = pill.getAttribute('data-pair'); renderBigCouncil(); });
       });
+
+      var sessionToggle = document.getElementById('bcSessionEditToggle');
+      if(sessionToggle) sessionToggle.addEventListener('click', function(){
+        var form = document.getElementById('bcSessionForm');
+        form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+      });
+      var sessionSaveBtn = document.getElementById('bcSessionSave');
+      if(sessionSaveBtn) sessionSaveBtn.addEventListener('click', function(){
+        var date = document.getElementById('bcSessionDate').value;
+        var highlight = document.getElementById('bcSessionHighlight').value.trim();
+        var fFlavio = document.getElementById('bcSessionFeedbackFlavio').value.trim();
+        var fPadilha = document.getElementById('bcSessionFeedbackPadilha').value.trim();
+        sessionSaveBtn.disabled = true;
+        sb.from('big_council_sessions').upsert({pair_key: pair.key, date: date||null, highlight: highlight, feedback_flavio: fFlavio, feedback_padilha: fPadilha}, {onConflict:'pair_key'}).select().then(function(res){
+          sessionSaveBtn.disabled = false;
+          if(res.error || !res.data || !res.data[0]){ console.error('Erro ao salvar registro do dia:', res.error); toast('Não consegui salvar o registro do dia.'); return; }
+          var row = res.data[0];
+          state.bigCouncilSessions[pair.key] = {id:row.id, pairKey:row.pair_key, date:row.date, highlight:row.highlight||'', feedbackFlavio:row.feedback_flavio||'', feedbackPadilha:row.feedback_padilha||''};
+          renderBigCouncil();
+          toast('Registro do dia salvo.', 'success');
+        });
+      });
+
       var addBtn = document.getElementById('bcAdd');
       if(addBtn) addBtn.addEventListener('click', function(){
         var title = document.getElementById('bcTitle').value.trim();
         var date = document.getElementById('bcDate').value;
+        var client = document.getElementById('bcClient').value.trim();
+        var scoreRaw = document.getElementById('bcScore').value;
+        var score = scoreRaw==='' ? null : Math.max(0, Math.min(10, parseFloat(scoreRaw)));
         var fFlavio = document.getElementById('bcFeedbackFlavio').value.trim();
         var fPadilha = document.getElementById('bcFeedbackPadilha').value.trim();
         if(!title || !date){ toast('Preenche pelo menos o título e a data.'); return; }
         addBtn.disabled = true;
-        sb.from('big_council_ideas').insert({pair_key: pair.key, date: date, title: title, feedback_flavio: fFlavio, feedback_padilha: fPadilha}).select().then(function(res){
+        sb.from('big_council_ideas').insert({pair_key: pair.key, date: date, title: title, client: client, score: score, feedback_flavio: fFlavio, feedback_padilha: fPadilha}).select().then(function(res){
           addBtn.disabled = false;
           if(res.error || !res.data || !res.data[0]){ console.error('Erro ao salvar ideia:', res.error); toast('Não consegui salvar a ideia.'); return; }
           var row = res.data[0];
-          state.bigCouncil.push({id:row.id, pairKey:row.pair_key, date:row.date, title:row.title, feedbackFlavio:row.feedback_flavio||'', feedbackPadilha:row.feedback_padilha||''});
+          state.bigCouncil.push({id:row.id, pairKey:row.pair_key, date:row.date, title:row.title, client:row.client||'', score:(row.score===null||row.score===undefined)?null:parseFloat(row.score), feedbackFlavio:row.feedback_flavio||'', feedbackPadilha:row.feedback_padilha||''});
           renderBigCouncil();
           toast('Ideia adicionada.', 'success');
         });
@@ -2818,7 +2915,7 @@
 
   var REPORT_CSS = ''
     +':root{'
-    +'--bg:#e9e7ea;--surface:#e9e7ea;--surface-2:#f2f1f0;--surface-3:#dcdadd;'
+    +'--bg:#e9e7ea;--surface:#e9e7ea;--surface-2:#dcdadd;--surface-3:#dcdadd;'
     +'--border:rgba(0,0,0,.13);--border-strong:rgba(0,0,0,.28);'
     +'--ink:#000000;--ink-secondary:#000000;--ink-muted:#000000;'
     +'--good:#1f9e58;--good-soft:rgba(31,158,88,.13);'
@@ -2827,7 +2924,7 @@
     +'--gold-1:#000000;--gold-2:#000000;'
     +'--badge-grad-1:#000000;--badge-grad-2:#000000;--badge-border:#000000;--badge-ink:#e9e7ea;'
     +'--radius-s:10px;--radius-m:18px;--radius-l:28px;--radius-photo:8px;'
-    +'--font:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;'
+    +'--font:"Instrument Sans","Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;'
     +'--font-mono:"Space Grotesk","Roboto Mono",ui-monospace,"SFMono-Regular",monospace;'
     +'}'
     +'*{box-sizing:border-box;}'
@@ -2975,7 +3072,7 @@
       +'<meta name="viewport" content="width=device-width, initial-scale=1">'
       +'<link rel="preconnect" href="https://fonts.googleapis.com">'
       +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-      +'<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
+      +'<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
       +'<style>'+REPORT_CSS+'</style>'
       +'</head><body><div class="page">'+body+'</div></body></html>';
   }
