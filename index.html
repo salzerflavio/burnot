@@ -212,13 +212,14 @@
   }
   .avatar img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
   .chip{
-    width:56px;height:56px;border:1.5px solid transparent;border-radius:var(--radius-photo);cursor:pointer;
-    transition:transform .15s var(--ease);font-size:17px;overflow:hidden;padding:2px;box-sizing:border-box;
+    width:56px;height:56px;border-radius:var(--radius-photo);cursor:pointer;position:relative;
+    transition:transform .15s var(--ease);font-size:17px;box-sizing:border-box;
   }
   .chip:hover{transform:scale(1.1);z-index:2;}
-  .chip.status-pending{border-color:var(--status-pending);}
-  .chip.status-approved{border-color:var(--status-approved);}
-  .chip.status-flag{border-color:var(--status-flag);}
+  .chip::after{content:'';position:absolute;left:0;right:0;bottom:0;height:5px;background:transparent;}
+  .chip.status-pending::after{background:var(--status-pending);}
+  .chip.status-approved::after{background:var(--status-approved);}
+  .chip.status-flag::after{background:var(--status-flag);}
   .chip-more{
     width:52px;height:52px;border-radius:var(--radius-photo);background:var(--surface-3);color:var(--ink-secondary);
     display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;
@@ -302,8 +303,8 @@
   .dayoff-row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--border);font-size:13px;}
   .dayoff-row:last-child{border-bottom:none;}
   .status-badge{
-    display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid var(--ink);font-size:11px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.03em;background:transparent;
+    display:inline-flex;align-items:center;gap:6px;padding:4px 9px;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;background:var(--ink);
   }
   .status-badge.status-pending{color:var(--status-pending);}
   .status-badge.status-approved{color:var(--status-approved);}
@@ -434,13 +435,19 @@
   .birthday-field .cake-icon{width:16px;height:16px;flex-shrink:0;color:var(--ink-muted);}
   .birthday-field input{flex:1;}
 
-  .current-fatigue-row{display:flex;align-items:center;gap:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-m);padding:16px 18px;}
+  .current-fatigue-row{display:flex;flex-direction:column;gap:9px;background:var(--surface-2);border:1px solid var(--border);padding:16px 18px;}
   .current-fatigue-row .fatigue-h-track{flex:1;}
-  .current-fatigue-badge{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:120px;}
-  .current-fatigue-badge .cf-face{width:28px;height:28px;flex-shrink:0;}
-  .current-fatigue-badge .cf-face svg{width:100%;height:100%;}
-  .current-fatigue-badge .cf-label{font-size:11.5px;color:var(--ink-muted);}
-  .current-fatigue-score{font-family:var(--font-accent);font-weight:800;font-size:22px;color:var(--ink);min-width:38px;text-align:right;}
+  .cf-labels-row{display:flex;align-items:baseline;gap:10px;}
+  .cf-labels-spacer{flex-shrink:0;}
+  .cf-icon-spacer{width:24px;}
+  .cf-score-spacer{width:38px;}
+  .cf-labels-mid{flex:1;display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+  .cf-month{font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.04em;}
+  .cf-status{font-size:11px;color:var(--ink);font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+  .current-fatigue-bar-row{display:flex;align-items:center;gap:10px;}
+  .current-fatigue-bar-row .cf-face{width:24px;height:24px;flex-shrink:0;}
+  .current-fatigue-bar-row .cf-face svg{width:100%;height:100%;}
+  .current-fatigue-score{font-family:var(--font-accent);font-weight:800;font-size:22px;color:var(--ink);width:38px;flex-shrink:0;text-align:right;}
 
   .dc-feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   .dc-feedback-col h4{font-family:var(--font-body);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 10px;color:var(--ink-muted);}
@@ -492,7 +499,7 @@
   .fatigue-h-chart{display:flex;flex-direction:column;gap:12px;}
   .fatigue-h-row{display:flex;align-items:center;gap:12px;}
   .fatigue-h-month{width:70px;flex-shrink:0;font-size:11.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.03em;}
-  .fatigue-h-track{flex:1;height:22px;background:var(--surface-2);border-radius:999px;position:relative;overflow:hidden;}
+  .fatigue-h-track{flex:1;height:22px;background:var(--ink);border-radius:999px;position:relative;overflow:hidden;}
   .fatigue-h-bar{height:100%;border-radius:999px;transition:width .6s var(--ease);}
   .fatigue-h-bar.band-calm{background:linear-gradient(90deg,var(--status-approved),#baffa0);}
   .fatigue-h-bar.band-mid{background:linear-gradient(90deg,var(--status-pending),#fff877);}
@@ -650,10 +657,10 @@
      ============================================================ */
   *, *::before, *::after{ border-radius:0 !important; }
 
-  .brand-logo{height:34px;opacity:1;}
-  .auth-logo{height:76px;margin-bottom:20px;}
+  .brand-logo{height:48px;opacity:1;}
+  .auth-logo{height:88px;margin-bottom:20px;}
   .sidebar-logo{height:56px;width:56px;object-fit:contain;}
-  .head-mark{height:36px;}
+  .head-mark{height:48px;}
 
   .section-sub{font-size:10.5px;letter-spacing:.05em;}
   .cal-poster-tag{font-size:8.5px;}
@@ -2160,9 +2167,8 @@
     }
     var mLabel = MONTHS[parseInt(d.month.slice(5,7),10)-1];
     return '<div class="current-fatigue-row">'+
-      '<div class="current-fatigue-badge"><span class="cf-face" style="color:'+bandColorHex(d.band)+';">'+bandFace(d.band)+'</span><span class="cf-label">'+mLabel+' · '+bandLabel(d.band)+'</span></div>'+
-      '<div class="fatigue-h-track"><div class="fatigue-h-bar '+bandClass(d.band)+'" style="width:'+Math.max(6,d.score)+'%;"></div></div>'+
-      '<span class="current-fatigue-score">'+d.score+'</span>'+
+      '<div class="cf-labels-row"><span class="cf-labels-spacer cf-icon-spacer"></span><div class="cf-labels-mid"><span class="cf-month">'+mLabel+'</span><span class="cf-status">'+bandLabel(d.band)+'</span></div><span class="cf-labels-spacer cf-score-spacer"></span></div>'+
+      '<div class="current-fatigue-bar-row"><span class="cf-face" style="color:'+bandColorHex(d.band)+';">'+bandFace(d.band)+'</span><div class="fatigue-h-track"><div class="fatigue-h-bar '+bandClass(d.band)+'" style="width:'+Math.max(6,d.score)+'%;"></div></div><span class="current-fatigue-score">'+d.score+'</span></div>'+
     '</div>';
   }
 
