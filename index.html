@@ -552,6 +552,9 @@
   }
   .perf-legend-label{display:block;font-weight:700;font-size:13px;}
   .perf-legend-just{display:block;color:var(--ink-muted);font-size:12.5px;line-height:1.5;margin-top:2px;font-family:var(--font-mono);text-transform:none;letter-spacing:0;}
+  .perf-goal-field{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;font-family:var(--font-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);}
+  .perf-goal-input{width:44px;text-align:right;font-family:var(--font-mono);font-size:12px;color:var(--ink);background:var(--surface);border:1px solid var(--border-strong);padding:3px 5px;}
+  .perf-goal-readonly{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);}
   .wordcloud-empty{color:var(--ink-muted);font-size:14px;padding:18px 0;}
 
   /* ---- Manual metrics (Técnica / Fome / Coragem) ---- */
@@ -1528,7 +1531,7 @@
     var feedbackByPerson = {};
     feedbackRows.forEach(function(f){
       if(!feedbackByPerson[f.person_id]) feedbackByPerson[f.person_id] = {};
-      feedbackByPerson[f.person_id][f.axis_key] = {score: parseFloat(f.score), justificativa: f.justificativa || ''};
+      feedbackByPerson[f.person_id][f.axis_key] = {score: parseFloat(f.score), justificativa: f.justificativa || '', goal: (f.goal===null||f.goal===undefined) ? PERF_GOAL_DEFAULT : parseFloat(f.goal)};
     });
 
     state.team = peopleRows.map(function(p){
@@ -2307,23 +2310,26 @@
     var fb = p.feedback||{};
     return PERF_AXES.map(function(ax){
       var f = fb[ax.key];
-      var base = f ? f.score : 0;
       var bonus = axisUpdateBonus(p.id, ax.key);
-      var score = Math.round(Math.min(100, base+bonus)*10)/10;
+      var score = Math.round(Math.min(100, bonus)*10)/10;
+      var goal = (f && f.goal!=null) ? f.goal : PERF_GOAL_DEFAULT;
       var justificativa = f ? f.justificativa : 'Sem dado de feedback ainda.';
       if(bonus>0) justificativa += ' (+'+bonus.toFixed(1)+' de pontos positivos lançados na Agenda de Atualizações)';
-      return {key:ax.key, label:ax.label, score: score, justificativa: justificativa};
+      return {key:ax.key, label:ax.label, score: score, goal: goal, justificativa: justificativa};
     });
   }
 
-  function personLevel(p){
+  var ACHIEVEMENT_BONUS = 2; // cada conquista desbloqueada soma isso ao total de Pontos
+
+  function personPoints(p){
     var items = personPerfScores(p);
     if(!items.length) return 0;
     var sum = items.reduce(function(acc,it){ return acc+it.score; }, 0);
-    return Math.round((sum/items.length)*10)/10;
+    var achvBonus = personAchievements(p.id).length * ACHIEVEMENT_BONUS;
+    return Math.round((sum+achvBonus)*10)/10;
   }
 
-  var PERF_GOAL = 85; // meta esperada de evolução (mesma meta em todos os eixos, referência de comparação no gráfico)
+  var PERF_GOAL_DEFAULT = 85; // meta padrão até o admin curar a meta de cada eixo/pessoa
 
   function radarPoint(cx,cy,angleDeg,r){
     var a = angleDeg*Math.PI/180;
@@ -2353,7 +2359,7 @@
       ticks += '<rect class="radar-tick" x="'+(tick.x-2.5).toFixed(2)+'" y="'+(tick.y-2.5).toFixed(2)+'" width="5" height="5" transform="rotate(45 '+tick.x.toFixed(2)+' '+tick.y.toFixed(2)+')"/>';
     });
 
-    var goalPts = angles.map(function(a){ return radarPoint(cx,cy,a,maxR*(PERF_GOAL/100)); });
+    var goalPts = items.map(function(it,i){ var t=Math.max(0,Math.min(1,it.goal/100)); return radarPoint(cx,cy,angles[i],maxR*t); });
     var valuePts = items.map(function(it,i){ var t=Math.max(0,Math.min(1,it.score/100)); return radarPoint(cx,cy,angles[i],maxR*t); });
 
     var dots='', labels='';
@@ -2371,20 +2377,24 @@
 
     return '<svg class="petal-chart" viewBox="-50 -50 500 500" role="img" aria-label="Gráfico de performance">'+
       grid + spokes + ticks +
-      '<polygon class="radar-goal" points="'+radarPolygonPoints(goalPts)+'"><title>Meta esperada de evolução: '+PERF_GOAL+'/100</title></polygon>'+
+      '<polygon class="radar-goal" points="'+radarPolygonPoints(goalPts)+'"><title>Meta de evolução (por eixo, curada a partir do feedback)</title></polygon>'+
       '<polygon class="radar-value" points="'+radarPolygonPoints(valuePts)+'"/>'+
       dots + '<circle class="radar-center" cx="'+cx+'" cy="'+cy+'" r="2.5"/>'+
       labels +
     '</svg>';
   }
 
-  function renderPerfLegend(person){
+  function renderPerfLegend(person, isAdmin){
     var items = personPerfScores(person);
     return '<div class="perf-legend">' + items.map(function(it){
+      var goalField = isAdmin
+        ? '<label class="perf-goal-field">Meta<input type="number" class="perf-goal-input" data-goal-person="'+person.id+'" data-goal-axis="'+it.key+'" value="'+it.goal+'" min="0" max="100" step="5"></label>'
+        : '<span class="perf-goal-field perf-goal-readonly">Meta '+it.goal+'</span>';
       return '<div class="perf-legend-row">'+
         '<span class="perf-legend-score">'+it.score+'</span>'+
         '<div><span class="perf-legend-label">'+escapeHtml(it.label)+'</span>'+
         '<span class="perf-legend-just">'+escapeHtml(it.justificativa)+'</span></div>'+
+        goalField+
       '</div>';
     }).join('') + '</div>';
   }
@@ -3019,7 +3029,7 @@
   function buildPersonReportHTML(personId){
     var p = personById(personId);
     if(!p) return '';
-    var level = personLevel(p);
+    var points = personPoints(p);
     var updates = personUpdates(personId);
     var achievements = personAchievements(personId);
     var series = personMomentumSeries(personId);
@@ -3063,7 +3073,7 @@
       +'  <div class="identity-period">'+periodLabel+' · '+genLabel+'</div>'
       +'</div>'
       +'<div class="stats">'
-      +'  <div class="stat"><div class="stat-label">Nível atual</div><div class="stat-value">'+level+'<span class="stat-unit">/100</span></div><div class="stat-note">média das 8 pétalas</div></div>'
+      +'  <div class="stat"><div class="stat-label">Pontos</div><div class="stat-value">'+points+'</div><div class="stat-note">evolução acumulada</div></div>'
       +'  <div class="stat"><div class="stat-label">Evolução no período</div><div class="stat-value '+(delta>=0?'good':'bad')+'">'+deltaLabel+'</div><div class="stat-note">saldo de atualizações</div></div>'
       +'  <div class="stat"><div class="stat-label">Atualizações</div><div class="stat-value">'+updates.length+'</div><div class="stat-note">pontos lançados</div></div>'
       +'  <div class="stat"><div class="stat-label">Conquistas</div><div class="stat-value">'+achvCount+'</div><div class="stat-note">badges desbloqueadas</div></div>'
@@ -3118,7 +3128,7 @@
     } else {
       html += '    <span class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;aspect-ratio:1;border-radius:var(--radius-m);"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;aspect-ratio:1;border-radius:var(--radius-m);font-size:34px;">'+initials(p.name)+'</span>')+'</span>';
     }
-    html += '    <div class="profile-level" title="Média das 8 pétalas da ficha de performance"><span class="profile-level-num">'+personLevel(p)+'</span><span class="profile-level-lbl">Nível</span></div>';
+    html += '    <div class="profile-level" title="Soma dos pontos das 8 pétalas + conquistas desbloqueadas"><span class="profile-level-num">'+personPoints(p)+'</span><span class="profile-level-lbl">Pontos</span></div>';
     html += '    <button class="btn btn-ghost btn-sm" id="btnDownloadReport" style="width:100%;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>Baixar relatório</button>';
     if(isAdmin){
       html += '    <input type="text" class="name-input profile-name-input" id="profName" value="'+p.name.replace(/"/g,'&quot;')+'" placeholder="Nome">';
@@ -3147,7 +3157,7 @@
     html += '    </div>';
 
     html += '    <div class="report-block"><div class="block-head"><h3>Ficha de performance</h3><span class="section-sub" style="margin:0;">Baseada nos feedbacks 1:1 + Agenda de Atualizações — escala de 0 a 100</span></div>';
-    html += '      <div class="perf-wrap"><div class="perf-chart-wrap">'+renderPetalChart(p)+'<div class="perf-chart-legend"><span><i class="lg-value"></i>Atual</span><span><i class="lg-goal"></i>Meta ('+PERF_GOAL+')</span></div></div>'+renderPerfLegend(p)+'</div>';
+    html += '      <div class="perf-wrap"><div class="perf-chart-wrap">'+renderPetalChart(p)+'<div class="perf-chart-legend"><span><i class="lg-value"></i>Atual</span><span><i class="lg-goal"></i>Meta</span></div></div>'+renderPerfLegend(p, isAdmin)+'</div>';
     html += '    </div>';
 
     html += '    <div class="report-block"><div class="block-head"><h3>Agenda de Atualizações</h3><span class="section-sub" style="margin:0;">Timeline do que essa pessoa fez — cada ponto forte lançado soma +'+UPDATE_BONUS.toFixed(1)+' no eixo vinculado da ficha de performance</span></div>';
@@ -3277,6 +3287,25 @@
         }
       });
     });
+    if(isAdmin){
+      el.querySelectorAll('.perf-goal-input').forEach(function(input){
+        input.addEventListener('change', async function(){
+          var pid = input.getAttribute('data-goal-person');
+          var axisKey = input.getAttribute('data-goal-axis');
+          var val = Math.max(0, Math.min(100, parseFloat(input.value)||0));
+          input.value = val;
+          if(!p.feedback[axisKey]) p.feedback[axisKey] = {score:0, justificativa:'Sem dado de feedback ainda.', goal: PERF_GOAL_DEFAULT};
+          p.feedback[axisKey].goal = val;
+          renderTimeProfile(personId);
+          try{
+            var res = await sb.from('feedback_scores').update({goal: val}).eq('person_id', pid).eq('axis_key', axisKey);
+            if(res.error) throw res.error;
+          }catch(err){
+            toast('Não consegui salvar a meta: ' + (err.message || 'sem permissão pra essa ação.'));
+          }
+        });
+      });
+    }
   }
 
   /* ---------------- Auth ---------------- */
