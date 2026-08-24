@@ -45,7 +45,7 @@
   .entry-row .wd, .fatigue-month, .fatigue-h-month, .dc-feedback-col h4, .achv-tag, .achv-date,
   .update-row-date, .status-badge, .cf-label, .empty-row, .legend-item,
   .rotated-name, .p-role, .bio-text-empty, .report-role, .stat-note, .p-name, .flyout-item-name,
-  .dayoff-row, .eyebrow-tag, .u-role, .mini-card-role{
+  .dayoff-row, .entry-row, .eyebrow-tag, .u-role, .mini-card-role{
     font-family:var(--font-mono);
     text-transform:uppercase;
     letter-spacing:.04em;
@@ -2324,7 +2324,6 @@
       var score = Math.round(Math.min(100, bonus)*10)/10;
       var goal = (f && f.goal!=null) ? f.goal : PERF_GOAL_DEFAULT;
       var justificativa = f ? f.justificativa : 'Sem dado de feedback ainda.';
-      if(bonus>0) justificativa += ' (+'+bonus.toFixed(1)+' de pontos positivos lançados na Agenda de Atualizações)';
       return {key:ax.key, label:ax.label, score: score, goal: goal, justificativa: justificativa};
     });
   }
