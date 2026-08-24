@@ -297,7 +297,7 @@
     padding:10px 4px;border-bottom:1px solid var(--border);font-size:13px;
   }
   .entry-row:last-child{border-bottom:none;}
-  .entry-row .wd{color:var(--ink-muted);font-size:11px;text-transform:uppercase;}
+  .entry-row .wd, .dayoff-row .wd{color:var(--ink-muted);font-size:11px;text-transform:uppercase;}
   .entry-row .hrs{font-weight:700;font-family:var(--font-accent);font-size:16px;}
   .entry-row .proj{color:var(--ink-secondary);}
   .row-del{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:15px;opacity:0;transition:opacity .2s,color .2s;padding:2px 4px;}
@@ -696,7 +696,8 @@
   .achv-tag{font-size:7px;}
   .achv-date{font-size:8px;}
   .cf-label{font-size:8px;}
-  .entry-row .wd{font-size:8px;}
+  .entry-row .wd, .dayoff-row .wd{font-size:8px;}
+  .dayoff-edit-btn{font-size:8px;}
   .fatigue-month,.fatigue-h-month{font-size:7.5px;}
   .status-badge{font-size:8px;}
   .side-label{font-size:10.5px;}
@@ -2589,7 +2590,7 @@
 
     html += '    <div class="report-block"><div class="block-head"><h3>Nível de cansaço</h3></div>' + renderFatigueChartHorizontal(p.id) + '</div>';
 
-    html += '    <div class="report-block"><div class="block-head"><h3>Horas extras / horas trabalhadas</h3></div>';
+    html += '    <div class="report-block"><div class="block-head"><h3>Horas extras</h3></div>';
     if(overtimeEntries.length){
       overtimeEntries.forEach(function(o){
         html += '<div class="entry-row" data-id="'+o.id+'"><span>'+formatBR(o.date)+'</span><span class="wd">'+weekdayShort(o.date)+'</span><span class="proj">'+(o.project||'—')+' <span class="hrs">'+o.hours+'h</span></span>'+(isAdmin ? '<button class="row-del" data-kind="overtime" data-id="'+o.id+'" aria-label="Remover">×</button>' : '')+'</div>';
@@ -2611,7 +2612,7 @@
     if(dayoffEntries.length){
       dayoffEntries.forEach(function(d){
         var canEdit = isAdmin || d.status==='pending';
-        html += '<div class="dayoff-row"><span>'+formatBR(d.date)+'</span><span class="wd" style="color:var(--ink-muted);font-size:11px;text-transform:uppercase;">'+weekdayShort(d.date)+'</span><span class="status-badge status-'+d.status+'">'+STATUS_LABEL[d.status]+'</span><span style="color:var(--ink-muted);flex:1;">'+(d.note||'')+'</span>'+(canEdit ? '<button class="row-del" data-kind="dayoff-edit" data-id="'+d.id+'" style="opacity:1;">'+(isAdmin?'editar':'ver')+'</button>' : '')+'</div>';
+        html += '<div class="dayoff-row"><span>'+formatBR(d.date)+'</span><span class="wd">'+weekdayShort(d.date)+'</span><span class="status-badge status-'+d.status+'">'+STATUS_LABEL[d.status]+'</span><span style="color:var(--ink-muted);flex:1;">'+(d.note||'')+'</span>'+(canEdit ? '<button class="row-del dayoff-edit-btn" data-kind="dayoff-edit" data-id="'+d.id+'" style="opacity:1;">'+(isAdmin?'editar':'ver')+'</button>' : '')+'</div>';
       });
     } else {
       html += '<div class="empty-row">Nenhum day off marcado. Adicione pelo Calendário.</div>';
