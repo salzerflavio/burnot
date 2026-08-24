@@ -472,12 +472,9 @@
   .bc-idea-title-wrap h3{margin:0;font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;}
   .bc-idea-client{font-family:var(--font-mono);font-weight:400;font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;}
   .bc-idea-date{display:block;width:100%;font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
-  .bc-score-badge{display:inline-flex;align-items:baseline;gap:2px;background:var(--ink);padding:6px 12px;font-family:var(--font-accent);font-weight:800;font-size:19px;flex-shrink:0;}
+  .bc-score-badge{display:inline-flex;align-items:baseline;gap:2px;background:var(--ink);color:var(--accent-ink);padding:6px 12px;font-family:var(--font-accent);font-weight:800;font-size:19px;flex-shrink:0;}
   .bc-score-badge small{font-family:var(--font-mono);font-weight:600;font-size:9px;text-transform:uppercase;opacity:.7;}
-  .bc-score-badge.status-approved{color:var(--status-approved);}
-  .bc-score-badge.status-pending{color:var(--status-pending);}
-  .bc-score-badge.status-flag{color:var(--status-flag);}
-  .bc-score-badge.status-none{color:var(--ink-muted);}
+  .bc-score-badge.status-none{color:var(--accent-ink-muted);}
 
   /* ---------- Conquistas (achievement trophies) ---------- */
   .achv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px;margin-bottom:18px;}
@@ -1757,8 +1754,8 @@
     var session = state.bigCouncilSessions[pair.key] || null;
 
     html += '<div class="report-block bc-session-card">';
-    var bcSessionDateLabel = (session && session.date) ? (' → Dia '+formatBR(session.date)) : '';
-    html += '  <div class="block-head"><h3>Big Council'+bcSessionDateLabel+'</h3></div>';
+    var bcSessionDateLabel = (session && session.date) ? ('→ Dia '+formatBR(session.date)) : '';
+    html += '  <div class="block-head"><div><h3 style="margin:0;">Big Council</h3>'+(bcSessionDateLabel ? '<div class="section-sub" style="margin:4px 0 0;">'+bcSessionDateLabel+'</div>' : '')+'</div></div>';
     html += '  <div class="bc-highlight"><span class="bc-highlight-label">Ponto alto</span><p class="bc-highlight-text">'+(session && session.highlight ? escapeHtml(session.highlight) : 'Sem ponto alto registrado ainda.')+'</p></div>';
     html += '  <div class="dc-feedback-grid">';
     html += '    <div class="dc-feedback-col"><h4>Flavio</h4><p class="mini-bio">'+(session && session.feedbackFlavio ? escapeHtml(session.feedbackFlavio) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
