@@ -172,6 +172,10 @@
     color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;
   }
   .cal-nav button:hover{background:var(--surface-3);}
+  .cal-nav .cal-today-btn{
+    width:auto;height:32px;padding:0 14px;border-radius:999px;
+    font-family:var(--font-mono);font-weight:600;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  }
   .cal-title{font-family:var(--font-accent);font-weight:700;font-size:22px;min-width:210px;}
   .cal-legend{display:flex;gap:16px;margin-left:auto;font-size:11px;color:var(--ink-secondary);flex-wrap:wrap;}
   .legend-item{display:flex;align-items:center;gap:6px;}
@@ -848,7 +852,7 @@
     <div class="cal-toolbar">
       <div class="cal-nav">
         <button id="calPrev" aria-label="Mês anterior">‹</button>
-        <button class="btn btn-sm" id="calToday">Hoje</button>
+        <button class="cal-today-btn" id="calToday">Hoje</button>
         <button id="calNext" aria-label="Próximo mês">›</button>
       </div>
       <div class="cal-legend">
