@@ -2282,10 +2282,32 @@
       return '<div class="empty-row">Ainda sem dados suficientes pra calcular o cansaço. Registre horas extras e day offs pra essa pessoa.</div>';
     }
     var mLabel = MONTHS[parseInt(d.month.slice(5,7),10)-1];
-    return '<div class="current-fatigue-row">'+
+    return '<div class="current-fatigue-row" data-person="'+personId+'">'+
       '<div class="cf-labels-row"><span class="cf-labels-spacer cf-icon-spacer"></span><div class="cf-labels-mid"><span class="cf-month">'+mLabel+'</span><span class="cf-status">'+bandLabel(d.band)+'</span></div><span class="cf-labels-spacer cf-score-spacer"></span></div>'+
-      '<div class="current-fatigue-bar-row"><span class="cf-face" style="color:'+bandColorHex(d.band)+';">'+bandFace(d.band)+'</span><div class="fatigue-h-track"><div class="fatigue-h-bar '+bandClass(d.band)+'" style="width:'+Math.max(6,d.score)+'%;"></div></div><span class="current-fatigue-score">'+d.score+'</span></div>'+
+      '<div class="current-fatigue-bar-row"><span class="cf-face" style="color:'+bandColorHex(d.band)+';">'+bandFace(d.band)+'</span><div class="fatigue-h-track"><div class="fatigue-h-bar '+bandClass(d.band)+'" id="cfBar" style="width:'+Math.max(6,d.score)+'%;"></div></div><span class="current-fatigue-score">'+d.score+'</span></div>'+
     '</div>';
+  }
+
+  // Anima a barra "Cansaço do momento atual" partindo da largura que ela já
+  // tinha (mesma pessoa, valor antigo) até o novo valor, em vez de só trocar
+  // seco quando o mês/dado mais recente muda. Só anima se já era a mesma
+  // pessoa em tela (senão é primeiro carregamento — sem "de onde" partir).
+  function animateCurrentFatigueBar(el, personId, apply){
+    var prevBar = el.querySelector('.current-fatigue-row[data-person="'+personId+'"] #cfBar');
+    var prevWidth = prevBar ? prevBar.style.width : null;
+    apply();
+    if(!prevWidth) return;
+    var newBar = el.querySelector('.current-fatigue-row[data-person="'+personId+'"] #cfBar');
+    if(!newBar) return;
+    var targetWidth = newBar.style.width;
+    if(targetWidth === prevWidth) return;
+    newBar.style.width = prevWidth;
+    void newBar.offsetWidth; // força reflow pra registrar o valor antigo antes de animar
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        newBar.style.width = targetWidth;
+      });
+    });
   }
 
   /* ---------------- Performance (ficha 360 / gráfico pétala) ---------------- */
@@ -3178,7 +3200,7 @@
     html += '  </div>';
     html += '</div>';
 
-    el.innerHTML = html;
+    animateCurrentFatigueBar(el, p.id, function(){ el.innerHTML = html; });
     drawFatigueLine();
 
     document.getElementById('btnDownloadReport').addEventListener('click', function(){ downloadPersonReport(p.id); });
