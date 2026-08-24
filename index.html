@@ -453,8 +453,8 @@
   .current-fatigue-bar-row .cf-face svg{width:100%;height:100%;}
   .current-fatigue-score{font-family:var(--font-accent);font-weight:800;font-size:22px;color:var(--ink);width:38px;flex-shrink:0;text-align:right;}
 
-  .dc-feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  .dc-feedback-col h4{font-family:var(--font-mono);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 10px;color:var(--ink-muted);}
+  .dc-feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .dc-feedback-col h4{font-family:var(--font-mono);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;color:var(--ink);}
   .dc-feedback-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
   .dc-feedback-list li{font-family:var(--font-mono);font-size:11px;line-height:1.5;padding-left:16px;position:relative;color:var(--ink-secondary);text-transform:uppercase;letter-spacing:0.06em;}
   .dc-feedback-list li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--ink-muted);}
@@ -463,13 +463,13 @@
   @media (max-width:860px){ .dc-feedback-grid{grid-template-columns:1fr;} }
 
   /* ---------- Big Council: registro do dia + cabeçalho de ideia ---------- */
-  .bc-session-card{margin-bottom:22px;}
+  .bc-session-card{margin-bottom:30px;}
   .bc-highlight{margin:14px 0 18px;padding:14px 16px;background:var(--ink);}
   .bc-highlight-label{display:block;font-family:var(--font-mono);font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent-ink);opacity:.65;margin-bottom:6px;}
   .bc-highlight-text{font-family:var(--font-mono);font-size:11px;line-height:1.55;color:var(--accent-ink);margin:0;text-transform:uppercase;letter-spacing:0.06em;}
-  .bc-idea-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px;}
+  .bc-idea-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px;}
   .bc-idea-title-wrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
-  .bc-idea-title-wrap h3{margin:0;font-family:var(--font-display);font-size:21px;font-weight:700;text-transform:uppercase;}
+  .bc-idea-title-wrap h3{margin:0;font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;}
   .bc-idea-client{font-family:var(--font-mono);font-weight:400;font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;}
   .bc-idea-date{display:block;width:100%;font-family:var(--font-mono);font-size:10px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
   .bc-score-badge{display:inline-flex;align-items:baseline;gap:2px;background:var(--ink);padding:6px 12px;font-family:var(--font-accent);font-weight:800;font-size:19px;flex-shrink:0;}
@@ -1757,7 +1757,8 @@
     var session = state.bigCouncilSessions[pair.key] || null;
 
     html += '<div class="report-block bc-session-card">';
-    html += '  <div class="block-head"><h3>Registro do dia</h3><span class="section-sub" style="margin:0;">'+(session && session.date ? formatBR(session.date) : 'Sem data registrada')+'</span></div>';
+    var bcSessionDateLabel = (session && session.date) ? (' → Dia '+formatBR(session.date)) : '';
+    html += '  <div class="block-head"><h3>Big Council'+bcSessionDateLabel+'</h3></div>';
     html += '  <div class="bc-highlight"><span class="bc-highlight-label">Ponto alto</span><p class="bc-highlight-text">'+(session && session.highlight ? escapeHtml(session.highlight) : 'Sem ponto alto registrado ainda.')+'</p></div>';
     html += '  <div class="dc-feedback-grid">';
     html += '    <div class="dc-feedback-col"><h4>Flavio</h4><p class="mini-bio">'+(session && session.feedbackFlavio ? escapeHtml(session.feedbackFlavio) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
@@ -1781,7 +1782,7 @@
       ideas.forEach(function(idea){
         html += '<div class="report-block bc-idea-card">';
         html += '  <div class="bc-idea-head">';
-        html += '    <div class="bc-idea-title-wrap"><h3>'+escapeHtml(idea.title||'Ideia sem título')+'</h3>'+(idea.client ? '<span class="bc-idea-client">'+escapeHtml(idea.client)+'</span>' : '')+'<span class="bc-idea-date">'+(idea.date?formatBR(idea.date):'')+'</span></div>';
+        html += '    <div class="bc-idea-title-wrap"><h3>'+escapeHtml(idea.title||'Ideia sem título')+'</h3>'+(idea.client ? '<span class="bc-idea-client">'+escapeHtml(idea.client)+'</span>' : '')+'</div>';
         html += '    '+bcScoreBadgeHtml(idea.score);
         html += '  </div>';
         html += '  <div class="dc-feedback-grid">';
