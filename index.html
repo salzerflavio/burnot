@@ -847,7 +847,7 @@
       <div class="cal-poster-month" id="calPosterMonth"></div>
       <div class="cal-poster-side">
         <div class="cal-poster-year" id="calPosterYear"></div>
-        <div class="cal-poster-tag">Calendário · Burnot</div>
+        <div class="cal-poster-tag">Burnot</div>
       </div>
     </div>
     <div class="cal-toolbar">
@@ -895,7 +895,7 @@
     <div class="section-sub">O combinado, do jeito que já funciona no time.</div>
     <div class="rules-wrap">
       <div class="rules-card">
-        <h2>Regras</h2>
+        <h2>O combinado</h2>
         <div class="rule"><span class="num">01</span><span>As coisas nunca vão ficar calmas o suficiente. <b>Peçam quando tiverem vontade.</b></span></div>
         <div class="rule"><span class="num">02</span><span>Se já tiver alguém do <b>mesmo ofício que você ocupando o dia, não vai rolar. Três pessoas do time no mesmo dia também não.</b></span></div>
         <div class="rule"><span class="num">03</span><span>Pedidos com, no mínimo, <b>uma semana de antecedência.</b></span></div>
@@ -1739,7 +1739,7 @@
 
     var html = '';
     html += '<div class="section-head"><h1>Big Council</h1><img class="brand-logo head-mark" src="'+BRAND_LOGO+'" alt="Burnot"></div>';
-    html += '<div class="section-sub">Ideias e feedback da dupla no Big Council.</div>';
+    html += '<div class="section-sub">Ideias e feedback da dupla, sessão a sessão.</div>';
 
     if(isAdmin){
       html += '<div class="person-rail" id="bcPairRail">';
@@ -1759,7 +1759,7 @@
 
     html += '<div class="report-block bc-session-card">';
     var bcSessionDateLabel = (session && session.date) ? ('→ Dia '+formatBR(session.date)) : '';
-    html += '  <div class="block-head"><div><h3 style="margin:0;">Big Council</h3>'+(bcSessionDateLabel ? '<div class="section-sub" style="margin:4px 0 0;">'+bcSessionDateLabel+'</div>' : '')+'</div></div>';
+    html += '  <div class="block-head"><div><h3 style="margin:0;">Registro do dia</h3>'+(bcSessionDateLabel ? '<div class="section-sub" style="margin:4px 0 0;">'+bcSessionDateLabel+'</div>' : '')+'</div></div>';
     html += '  <div class="bc-highlight"><span class="bc-highlight-label">Ponto alto</span><p class="bc-highlight-text">'+(session && session.highlight ? escapeHtml(session.highlight) : 'Sem ponto alto registrado ainda.')+'</p></div>';
     html += '  <div class="dc-feedback-grid">';
     html += '    <div class="dc-feedback-col"><h4>Flavio</h4><p class="mini-bio">'+(session && session.feedbackFlavio ? escapeHtml(session.feedbackFlavio) : '<span style="color:var(--ink-muted);">Sem feedback ainda.</span>')+'</p></div>';
