@@ -6,7 +6,7 @@
 <title>Burnot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     /* Sistema de 2 cores: preto + cinza clarinho. Status (calendário/cansaço) seguem coloridos, de propósito. */
@@ -34,10 +34,10 @@
     --radius-m:18px;
     --radius-l:28px;
     --radius-photo:8px;
-    --font-display:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-accent:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-body:'Instrument Sans', 'Hanken Grotesk', system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono:'Roboto Mono', ui-monospace, "SFMono-Regular", monospace;
+    --font-display:'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-accent:'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-body:'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, "SFMono-Regular", monospace;
     --ease:cubic-bezier(.22,1,.36,1);
     color-scheme: light;
   }
@@ -427,11 +427,11 @@
   }
   .profile-main{padding:26px 28px;overflow-x:hidden;}
 
-  .mini-bio{font-family:var(--font-mono);font-weight:400;font-size:11.5px;line-height:1.6;color:var(--ink-secondary);margin:0;text-transform:uppercase;letter-spacing:0.06em;}
+  .mini-bio{font-family:var(--font-body);font-weight:400;font-size:12.5px;line-height:1.55;color:var(--ink-secondary);margin:0;text-transform:none;letter-spacing:0;}
   .bio-text{
     width:100%;background:var(--surface-2);border:1px solid var(--border);
-    color:var(--ink);border-radius:var(--radius-s);padding:12px;font-family:var(--font-mono);font-weight:400;
-    font-size:11px;line-height:1.6;white-space:pre-wrap;text-transform:uppercase;letter-spacing:0.06em;
+    color:var(--ink);border-radius:var(--radius-s);padding:12px;font-family:var(--font-body);font-weight:400;
+    font-size:13px;line-height:1.55;white-space:pre-wrap;text-transform:none;letter-spacing:0;
   }
   .bio-text-empty{color:var(--ink-muted);}
 
@@ -456,7 +456,7 @@
   .dc-feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
   .dc-feedback-col h4{font-family:var(--font-mono);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;color:var(--ink);}
   .dc-feedback-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
-  .dc-feedback-list li{font-family:var(--font-mono);font-size:11px;line-height:1.5;padding-left:16px;position:relative;color:var(--ink-secondary);text-transform:uppercase;letter-spacing:0.06em;}
+  .dc-feedback-list li{font-family:var(--font-body);font-size:12.5px;line-height:1.5;padding-left:16px;position:relative;color:var(--ink-secondary);text-transform:none;letter-spacing:0;}
   .dc-feedback-list li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--ink-muted);}
   .dc-feedback-list.strengths li::before{background:var(--status-approved);}
   .dc-feedback-list.growth li::before{background:var(--status-pending);}
@@ -466,7 +466,7 @@
   .bc-session-card{margin-bottom:30px;}
   .bc-highlight{margin:14px 0 18px;padding:14px 16px;background:var(--ink);}
   .bc-highlight-label{display:block;font-family:var(--font-mono);font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent-ink);opacity:.65;margin-bottom:6px;}
-  .bc-highlight-text{font-family:var(--font-mono);font-size:11px;line-height:1.55;color:var(--accent-ink);margin:0;text-transform:uppercase;letter-spacing:0.06em;}
+  .bc-highlight-text{font-family:var(--font-body);font-size:12.5px;line-height:1.55;color:var(--accent-ink);margin:0;text-transform:none;letter-spacing:0;}
   .bc-idea-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px;}
   .bc-idea-title-wrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
   .bc-idea-title-wrap h3{margin:0;font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;}
@@ -503,7 +503,7 @@
   .update-row{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);}
   .update-row-date{font-family:var(--font-accent);font-weight:700;color:var(--ink-muted);font-size:13px;min-width:64px;flex-shrink:0;padding-top:1px;}
   .update-row-body{flex:1;}
-  .update-row-body p{margin:0 0 6px;font-size:11px;line-height:1.5;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;}
+  .update-row-body p{margin:0 0 6px;font-size:12.5px;line-height:1.5;font-family:var(--font-body);text-transform:none;letter-spacing:0;}
   .update-tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 9px;background:var(--ink);}
   .update-tag-forte{color:var(--status-approved);}
   .update-tag-melhorar{color:var(--status-pending);}
@@ -552,7 +552,7 @@
     font-family:var(--font-accent);font-weight:800;font-size:20px;color:var(--ink);width:34px;flex-shrink:0;line-height:1.3;
   }
   .perf-legend-label{display:block;font-weight:700;font-size:13px;}
-  .perf-legend-just{display:block;color:var(--ink-muted);font-size:10px;line-height:1.5;margin-top:2px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;}
+  .perf-legend-just{display:block;color:var(--ink-muted);font-size:11px;line-height:1.5;margin-top:2px;font-family:var(--font-body);text-transform:none;letter-spacing:0;}
   .perf-goal-field{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;font-family:var(--font-mono);font-size:8px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-muted);}
   .perf-goal-input{width:44px;text-align:right;font-family:var(--font-mono);font-size:12px;color:var(--ink);background:var(--surface);border:1px solid var(--border-strong);padding:3px 5px;}
   .perf-goal-readonly{font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);}
@@ -709,15 +709,18 @@
   .legend-dot{width:8px;height:8px;}
   .fatigue-bar{width:28px;}
 
-  /* Sistema tipográfico — só 2 famílias no site inteiro:
-     — Títulos: Instrument (--font-display), sempre bold (700) + CAPS,
+  /* Sistema tipográfico — 2 famílias, 3 usos (atualizado pra seguir a
+     referência editandmodify.xyz — mesmas fontes/regras, cores mantidas):
+     — Títulos: Inter (--font-display), sempre bold (700) + CAPS,
        tamanho varia por hierarquia (dá o contraste).
-     — Tudo o resto (legendas/subtítulos curtos E texto corrido — bio,
-       feedbacks, justificativas, pontos fortes/a melhorar, agenda de
-       atualizações): Roboto Mono (--font-mono), sempre CAPS. Só muda o
-       tamanho: subtítulos/legendas maiores (8-12px), texto corrido menor
-       (10-11.5px) — tratado em .mini-bio/.bio-text/.perf-legend-just/
-       .bc-highlight-text/.dc-feedback-list li/.update-row-body p. */
+     — Legendas/subtítulos/labels curtos: IBM Plex Mono (--font-mono),
+       sempre CAPS, letter-spacing largo (~.06-.08em) — como antes.
+     — Texto corrido (bio, feedbacks, justificativas, pontos fortes/a
+       melhorar, agenda de atualizações): Inter regular (--font-body),
+       caixa normal (sem CAPS), letter-spacing 0 — como a referência,
+       pra ficar mais legível em blocos longos de texto. Tratado em
+       .mini-bio/.bio-text/.perf-legend-just/.bc-highlight-text/
+       .dc-feedback-list li/.update-row-body p. */
   .rule, .rules-card h2, .report-name, .profile-name-input,
   .block-head h3, .achv-title, .report-empty h2, .cal-empty h2, .metric-block-head h4,
   .btn, .toast{
@@ -2974,8 +2977,8 @@
     +'--gold-1:#000000;--gold-2:#000000;'
     +'--badge-grad-1:#000000;--badge-grad-2:#000000;--badge-border:#000000;--badge-ink:#ededed;'
     +'--radius-s:10px;--radius-m:18px;--radius-l:28px;--radius-photo:8px;'
-    +'--font:"Instrument Sans","Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;'
-    +'--font-mono:"Roboto Mono",ui-monospace,"SFMono-Regular",monospace;'
+    +'--font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;'
+    +'--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;'
     +'}'
     +'*{box-sizing:border-box;}'
     +'body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;padding:40px 20px 70px;}'
@@ -3122,7 +3125,7 @@
       +'<meta name="viewport" content="width=device-width, initial-scale=1">'
       +'<link rel="preconnect" href="https://fonts.googleapis.com">'
       +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-      +'<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
+      +'<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">'
       +'<style>'+REPORT_CSS+'</style>'
       +'</head><body><div class="page">'+body+'</div></body></html>';
   }
