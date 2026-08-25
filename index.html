@@ -406,10 +406,9 @@
   .profile-photo-wrap{display:block;width:calc(100% + 224px);margin-left:-224px;aspect-ratio:3/4;overflow:hidden;background:var(--surface-3);}
   .profile-photo-wrap .avatar{width:100%;height:100%;}
   .profile-level{
-    display:flex;flex-direction:column;align-items:flex-start;gap:3px;align-self:flex-start;
-    margin-top:4px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:3px;
   }
-  .profile-level-num{font-family:var(--font-display);font-weight:900;font-size:44px;line-height:1;color:var(--ink);letter-spacing:-.01em;}
+  .profile-level-num{font-family:var(--font-display);font-weight:900;font-size:38px;line-height:1;color:var(--ink);letter-spacing:-.01em;}
   .profile-level-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-muted);}
   .profile-name-input, .profile-role-input{
     background:transparent;border:1px solid transparent;border-radius:var(--radius-s);padding:4px 6px;margin:0 -6px;
@@ -3175,7 +3174,6 @@
     } else {
       html += '    <span class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>')+'</span>';
     }
-    html += '    <div class="profile-level" title="Soma dos pontos das 8 pétalas + conquistas desbloqueadas"><span class="profile-level-num">'+personPoints(p)+'</span><span class="profile-level-lbl">Pontos de evolução</span></div>';
     if(isAdmin){
       html += '    <button class="btn btn-ghost btn-danger btn-sm" id="profRemove">Remover do time</button>';
     }
@@ -3192,6 +3190,7 @@
     }
     html += '      </div>';
     html += '      <div class="profile-header-meta">';
+    html += '        <div class="profile-level" title="Soma dos pontos das 8 pétalas + conquistas desbloqueadas"><span class="profile-level-num">'+personPoints(p)+'</span><span class="profile-level-lbl">Pontos de evolução</span></div>';
     if(isAdmin){
       html += '        <div class="profile-field birthday-field"><div style="width:100%;"><label>Aniversário</label><div style="display:flex;align-items:center;gap:8px;"><svg class="cake-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="16" height="8" rx="2"/><path d="M4 16h16"/><path d="M12 12V8"/><path d="M12 8c-1.1 0-1.5-.9-.9-1.9.6-.9.9-1.5.9-2.3 0 .8.3 1.4.9 2.3.6 1-.2 1.9-.9 1.9Z"/><path d="M8 12c0-1.1.55-1.85 1.3-2.4M16 12c0-1.1-.55-1.85-1.3-2.4"/></svg><input type="text" id="profBirthday" placeholder="DD/MM" value="'+(p.birthday?formatBirthday(p.birthday):'')+'"></div></div></div>';
     }
