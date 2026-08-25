@@ -260,22 +260,23 @@
   .report-photo{display:block;width:calc(100% + 224px);margin-left:-224px;aspect-ratio:3/4;overflow:hidden;background:var(--surface-3);position:relative;}
   .report-photo img{width:100%;height:100%;object-fit:cover;object-position:center;}
   .report-photo .avatar{width:100%;height:100%;font-size:34px;}
-  .report-name{font-family:var(--font-display);font-weight:700;font-size:32px;line-height:1.05;}
-  .report-role{color:var(--ink-muted);font-size:12.5px;margin-top:4px;}
+  .report-name{font-family:var(--font-display);font-weight:800;font-size:32px;line-height:1.05;}
+  .report-role{color:var(--ink-muted);font-size:11px;font-weight:600;margin-top:4px;}
 
-  .stat{padding:14px 0;}
-  .stat:first-child{padding-top:0;}
-  .stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-muted);font-weight:600;}
-  .stat-value{font-family:var(--font-accent);font-weight:800;font-size:34px;margin-top:2px;line-height:1;letter-spacing:-.02em;}
+  .stat{padding:0;}
+  .stat-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);font-weight:700;}
+  .stat-value{font-family:var(--font-accent);font-weight:800;font-size:24px;margin-top:3px;line-height:1;letter-spacing:-.01em;}
   .stat-value.good{color:var(--status-approved);}
   .stat-value.bad{color:var(--status-flag);}
-  .stat-note{font-size:10.5px;color:var(--ink-muted);margin-top:3px;}
+  .stat-note{font-size:9px;color:var(--ink-muted);margin-top:4px;}
+
+  .profile-daystats{display:flex;flex-wrap:wrap;gap:26px 44px;margin:0 0 32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
 
   .report-main{padding:0;overflow-x:hidden;}
   .report-block{margin-bottom:30px;}
   .report-block:last-child{margin-bottom:0;}
   .block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
-  .block-head h3{font-family:var(--font-display);font-size:22px;font-weight:700;margin:0;}
+  .block-head h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin:0;}
 
   .fatigue-headline{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
   .fatigue-headline-face{width:38px;height:38px;flex-shrink:0;}
@@ -408,14 +409,14 @@
   .profile-level{
     display:flex;flex-direction:column;align-items:flex-start;gap:3px;
   }
-  .profile-level-num{font-family:var(--font-display);font-weight:900;font-size:38px;line-height:1;color:var(--ink);letter-spacing:-.01em;}
-  .profile-level-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-muted);}
+  .profile-level-num{font-family:var(--font-display);font-weight:800;font-size:36px;line-height:1;color:var(--ink);letter-spacing:-.01em;}
+  .profile-level-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);}
   .profile-name-input, .profile-role-input{
     background:transparent;border:1px solid transparent;border-radius:var(--radius-s);padding:4px 6px;margin:0 -6px;
     color:var(--ink);width:calc(100% + 12px);transition:background .2s,border-color .2s;
   }
-  .profile-name-input{font-family:var(--font-display);font-weight:700;font-size:34px;}
-  .profile-role-input{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-muted);font-size:11.5px;}
+  .profile-name-input{font-family:var(--font-display);font-weight:800;font-size:32px;}
+  .profile-role-input{font-family:var(--font-mono);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-muted);font-size:11.5px;}
   .profile-name-input:hover, .profile-role-input:hover, .profile-name-input:focus, .profile-role-input:focus{
     background:var(--surface-2);border-color:var(--border);outline:none;
   }
@@ -678,6 +679,7 @@
     .profile-photo-wrap{width:100%;margin-left:0;aspect-ratio:4/3;}
     .profile-header{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:24px;padding-bottom:18px;}
     .profile-header-meta{gap:16px;}
+    .profile-daystats{gap:18px 28px;margin-bottom:24px;padding-bottom:18px;}
     .report-photo{width:76px;aspect-ratio:1;margin-left:0;flex-shrink:0;}
     .perf-wrap{grid-template-columns:1fr;}
   }
@@ -697,7 +699,6 @@
 
   .section-sub{font-size:10px;letter-spacing:.07em;}
   .cal-poster-tag{font-size:8px;}
-  .stat-label{font-size:8px;}
   .p-role,.mini-card-role,.report-role,.profile-role-input{font-size:8px;}
   .flyout-title,.flyout-item-role{font-size:7.5px;}
   .dc-feedback-col h4{font-size:8.5px;}
@@ -2584,10 +2585,6 @@
       html += '    <div class="report-photo">' + (p.photo ? '<img src="'+p.photo+'" alt="">' : '<span class="avatar">'+initials(p.name)+'</span>') + '</div>';
     }
     html += '    <div><div class="report-name">'+p.name+'</div><div class="report-role">'+(p.role||'')+'</div></div>';
-    html += '    <div class="stat"><div class="stat-label">Saldo de day off</div><div class="stat-value '+(stats.balance<0?'bad':'good')+'">'+stats.balance+'</div><div class="stat-note">créditos disponíveis menos usados</div></div>';
-    html += '    <div class="stat"><div class="stat-label">Créditos gerados</div><div class="stat-value">'+stats.credits+'</div><div class="stat-note">'+stats.hours+'h extras ÷ 8</div></div>';
-    html += '    <div class="stat"><div class="stat-label">Day offs usados</div><div class="stat-value">'+stats.used+'</div><div class="stat-note">pendentes + aprovados</div></div>';
-    html += '    <div class="stat"><div class="stat-label">Day offs a marcar</div><div class="stat-value '+(aMarcar>0?'good':'')+'">'+aMarcar+'</div><div class="stat-note">créditos ainda não agendados</div></div>';
     html += '  </div>';
     html += '  <div class="report-main">';
 
@@ -3162,6 +3159,10 @@
     var p = personById(personId);
     if(!p){ timeProfileId = null; renderTime(); return; }
     var isAdmin = currentUser.role === 'admin';
+    var canEditSelf = !!currentUser.personId && p.id === currentUser.personId;
+    var canEditPhoto = isAdmin || canEditSelf;
+    var stats = computeStats(p.id);
+    var aMarcar = Math.max(0, stats.balance);
 
     var html = '';
     if(isAdmin){
@@ -3169,10 +3170,11 @@
     }
     html += '<div class="profile-grid">';
     html += '  <div class="profile-side">';
-    if(isAdmin){
-      html += '    <label class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>')+'<div class="avatar-edit-hint">Trocar foto</div><input type="file" accept="image/*" class="visually-hidden photo-input"></label>';
+    var photoInner = (p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>');
+    if(canEditPhoto){
+      html += '    <label class="avatar-wrap profile-photo-wrap">'+photoInner+'<div class="avatar-edit-hint">Trocar foto</div><input type="file" accept="image/*" class="visually-hidden photo-input"></label>';
     } else {
-      html += '    <span class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>')+'</span>';
+      html += '    <span class="avatar-wrap profile-photo-wrap">'+photoInner+'</span>';
     }
     if(isAdmin){
       html += '    <button class="btn btn-ghost btn-danger btn-sm" id="profRemove">Remover do time</button>';
@@ -3196,6 +3198,13 @@
     }
     html += '        <button class="btn btn-ghost btn-sm" id="btnDownloadReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>Baixar relatório</button>';
     html += '      </div>';
+    html += '    </div>';
+
+    html += '    <div class="profile-daystats">';
+    html += '      <div class="stat"><div class="stat-label">Saldo de day off</div><div class="stat-value '+(stats.balance<0?'bad':'good')+'">'+stats.balance+'</div><div class="stat-note">créditos disponíveis menos usados</div></div>';
+    html += '      <div class="stat"><div class="stat-label">Créditos gerados</div><div class="stat-value">'+stats.credits+'</div><div class="stat-note">'+stats.hours+'h extras ÷ 8</div></div>';
+    html += '      <div class="stat"><div class="stat-label">Day offs usados</div><div class="stat-value">'+stats.used+'</div><div class="stat-note">pendentes + aprovados</div></div>';
+    html += '      <div class="stat"><div class="stat-label">Day offs a marcar</div><div class="stat-value '+(aMarcar>0?'good':'')+'">'+aMarcar+'</div><div class="stat-note">créditos ainda não agendados</div></div>';
     html += '    </div>';
 
     html += '    <div class="report-block"><div class="block-head"><h3>Cansaço do momento atual</h3></div>' + renderCurrentFatigueHorizontal(p.id) + '</div>';
@@ -3240,9 +3249,19 @@
       document.getElementById('profBirthday').addEventListener('change', function(e){
         var norm = e.target.value.trim() ? normalizeBirthdayInput(e.target.value) : null;
         if(e.target.value.trim() && !norm){ toast('Use o formato DD/MM.'); e.target.value = p.birthday?formatBirthday(p.birthday):''; return; }
-        p.birthday = norm; 
+        p.birthday = norm;
         savePersonField(p.id, {birthday: p.birthday});
       });
+      document.getElementById('profRemove').addEventListener('click', function(){
+        if(!confirm('Remover '+p.name+' do time? Isso não apaga horas/day offs já registrados.')) return;
+        state.team = state.team.filter(function(t){ return t.id!==p.id; });
+
+        timeProfileId = null;
+        renderTime();
+        renderFlyouts();
+      });
+    }
+    if(canEditPhoto){
       var photoInput = el.querySelector('.photo-input');
       if(photoInput){
         photoInput.addEventListener('change', function(e){
@@ -3256,14 +3275,6 @@
           reader.readAsDataURL(file);
         });
       }
-      document.getElementById('profRemove').addEventListener('click', function(){
-        if(!confirm('Remover '+p.name+' do time? Isso não apaga horas/day offs já registrados.')) return;
-        state.team = state.team.filter(function(t){ return t.id!==p.id; });
-        
-        timeProfileId = null;
-        renderTime();
-        renderFlyouts();
-      });
     }
     var btnAddUpdate = document.getElementById('btnAddUpdate');
     if(btnAddUpdate){
