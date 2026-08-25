@@ -3454,6 +3454,16 @@
     var flyoutTime = document.getElementById('flyoutTime');
     if(flyoutRel) flyoutRel.style.display = isAdmin ? '' : 'none';
     if(flyoutTime) flyoutTime.style.display = isAdmin ? '' : 'none';
+
+    // Colaborador só acessa o próprio perfil por esse item — o rótulo reflete isso.
+    var navWrapTime = document.getElementById('navWrapTime');
+    if(navWrapTime){
+      var timeBtn = navWrapTime.querySelector('.side-item');
+      var timeLabel = navWrapTime.querySelector('.side-label');
+      var timeText = isAdmin ? 'Time' : 'Meu Perfil';
+      if(timeLabel) timeLabel.textContent = timeText;
+      if(timeBtn) timeBtn.setAttribute('title', timeText);
+    }
   }
 
   var bootedUserId = null;
