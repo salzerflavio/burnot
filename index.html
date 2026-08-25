@@ -44,7 +44,7 @@
   .mono-label, .section-sub, .stat-label, .side-label, .flyout-title, .flyout-item-role,
   .entry-row .wd, .fatigue-month, .fatigue-h-month, .dc-feedback-col h4, .achv-tag, .achv-date,
   .update-row-date, .status-badge, .cf-label, .empty-row, .legend-item,
-  .rotated-name, .p-role, .bio-text-empty, .report-role, .stat-note, .p-name, .flyout-item-name,
+  .p-role, .bio-text-empty, .report-role, .stat-note, .p-name, .flyout-item-name,
   .dayoff-row, .entry-row, .eyebrow-tag, .u-role, .mini-card-role{
     font-family:var(--font-mono);
     text-transform:uppercase;
@@ -255,7 +255,7 @@
   .report-empty, .cal-empty{padding:60px 20px;text-align:center;color:var(--ink-muted);}
   .report-empty h2, .cal-empty h2{font-family:var(--font-display);color:var(--ink-secondary);font-weight:700;font-size:26px;margin-bottom:8px;}
 
-  .report-grid{display:grid;grid-template-columns:320px minmax(0,860px) 56px;gap:48px;border:none;border-radius:0;overflow:visible;background:transparent;animation:viewIn .45s var(--ease);}
+  .report-grid{display:grid;grid-template-columns:340px 1fr;gap:48px;border:none;border-radius:0;overflow:visible;background:transparent;animation:viewIn .45s var(--ease);}
   .report-side{padding:0;border-right:none;display:flex;flex-direction:column;gap:22px;}
   .report-photo{display:block;width:calc(100% + 224px);margin-left:-224px;aspect-ratio:3/4;overflow:hidden;background:var(--surface-3);position:relative;}
   .report-photo img{width:100%;height:100%;object-fit:cover;object-position:center;}
@@ -329,12 +329,6 @@
   .inline-form .f-date{width:140px;}
   .inline-form .f-hours{width:90px;}
   .inline-form .f-project{flex:1;min-width:160px;}
-
-  .rotated-name{
-    writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:.03em;color:var(--ink-secondary);
-    text-transform:uppercase;padding:16px 0;
-  }
 
   /* ---------- Team view ---------- */
   .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:36px 24px;}
@@ -672,7 +666,6 @@
     .app-shell{padding:20px 16px 60px;}
     .report-grid{grid-template-columns:1fr;gap:26px;}
     .report-side{border-right:none;padding-bottom:22px;flex-direction:row;flex-wrap:wrap;align-items:center;}
-    .rotated-name{display:none;}
     .cal-cell{min-height:82px;}
     .cal-legend{margin-left:0;width:100%;}
     .profile-grid{grid-template-columns:1fr;gap:26px;}
@@ -2649,7 +2642,6 @@
     html += '</div>';
 
     html += '  </div>';
-    html += '  <div class="rotated-name">'+p.name+'</div>';
     html += '</div>';
 
     detail.innerHTML = html;
