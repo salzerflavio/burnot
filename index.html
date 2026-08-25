@@ -260,6 +260,7 @@
   .report-photo{display:block;width:calc(100% + 224px);margin-left:-224px;aspect-ratio:3/4;overflow:hidden;background:var(--surface-3);position:relative;}
   .report-photo img{width:100%;height:100%;object-fit:cover;object-position:center;}
   .report-photo .avatar{width:100%;height:100%;font-size:34px;}
+  .report-header{margin:0 0 32px;padding-bottom:22px;border-bottom:1px solid var(--border);}
   .report-name{font-family:var(--font-display);font-weight:800;font-size:32px;line-height:1.05;}
   .report-role{color:var(--ink-muted);font-size:11px;font-weight:600;margin-top:4px;}
 
@@ -681,6 +682,7 @@
     .profile-header-meta{gap:16px;}
     .profile-daystats{gap:18px 28px;margin-bottom:24px;padding-bottom:18px;}
     .report-photo{width:76px;aspect-ratio:1;margin-left:0;flex-shrink:0;}
+    .report-header{margin-bottom:24px;padding-bottom:18px;}
     .perf-wrap{grid-template-columns:1fr;}
   }
 
@@ -2584,9 +2586,10 @@
     } else {
       html += '    <div class="report-photo">' + (p.photo ? '<img src="'+p.photo+'" alt="">' : '<span class="avatar">'+initials(p.name)+'</span>') + '</div>';
     }
-    html += '    <div><div class="report-name">'+p.name+'</div><div class="report-role">'+(p.role||'')+'</div></div>';
     html += '  </div>';
     html += '  <div class="report-main">';
+
+    html += '    <div class="report-header"><div class="report-name">'+p.name+'</div><div class="report-role">'+(p.role||'')+'</div></div>';
 
     html += '    <div class="report-block"><div class="block-head"><h3>Sobre</h3>'+(canEditSelf ? '<button class="btn btn-ghost btn-sm" id="btnBioEdit" style="padding:4px 8px;" title="Editar bio" aria-label="Editar bio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>' : '')+'</div>';
     if(canEditSelf && horasBioEditing){
