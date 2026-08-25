@@ -402,16 +402,15 @@
   /* ---- Time: full profile ---- */
   .profile-back{margin-bottom:16px;}
   .profile-grid{display:grid;grid-template-columns:340px 1fr;gap:48px;border:none;border-radius:0;overflow:visible;background:transparent;animation:viewIn .45s var(--ease);}
-  .profile-side{padding:0;border-right:none;display:flex;flex-direction:column;gap:12px;}
+  .profile-side{padding:0;border-right:none;display:flex;flex-direction:column;gap:16px;}
   .profile-photo-wrap{display:block;width:calc(100% + 224px);margin-left:-224px;aspect-ratio:3/4;overflow:hidden;background:var(--surface-3);}
   .profile-photo-wrap .avatar{width:100%;height:100%;}
   .profile-level{
-    display:flex;align-items:baseline;gap:7px;align-self:flex-start;
-    background:var(--ink);border:1px solid var(--ink);
-    border-radius:999px;padding:6px 16px 6px 14px;margin-top:2px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:3px;align-self:flex-start;
+    margin-top:4px;
   }
-  .profile-level-num{font-family:var(--font-display);font-weight:900;font-size:22px;line-height:1;color:var(--accent-ink);letter-spacing:-.01em;}
-  .profile-level-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--accent-ink-muted);}
+  .profile-level-num{font-family:var(--font-display);font-weight:900;font-size:44px;line-height:1;color:var(--ink);letter-spacing:-.01em;}
+  .profile-level-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-muted);}
   .profile-name-input, .profile-role-input{
     background:transparent;border:1px solid transparent;border-radius:var(--radius-s);padding:4px 6px;margin:0 -6px;
     color:var(--ink);width:calc(100% + 12px);transition:background .2s,border-color .2s;
@@ -434,7 +433,6 @@
   }
   .profile-header-id{display:flex;flex-direction:column;gap:6px;min-width:0;}
   .profile-header-meta{display:flex;align-items:center;flex-wrap:wrap;gap:24px;}
-  .profile-header-meta .profile-level{margin-top:0;}
   .profile-header-meta .profile-field{margin-top:0;}
   .profile-header-meta #btnDownloadReport{white-space:nowrap;}
 
@@ -3174,9 +3172,12 @@
     html += '  <div class="profile-side">';
     if(isAdmin){
       html += '    <label class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>')+'<div class="avatar-edit-hint">Trocar foto</div><input type="file" accept="image/*" class="visually-hidden photo-input"></label>';
-      html += '    <button class="btn btn-ghost btn-danger btn-sm" id="profRemove">Remover do time</button>';
     } else {
       html += '    <span class="avatar-wrap profile-photo-wrap">'+(p.photo ? '<span class="avatar" style="width:100%;height:100%;"><img src="'+p.photo+'" alt=""></span>' : '<span class="avatar" style="width:100%;height:100%;font-size:34px;">'+initials(p.name)+'</span>')+'</span>';
+    }
+    html += '    <div class="profile-level" title="Soma dos pontos das 8 pétalas + conquistas desbloqueadas"><span class="profile-level-num">'+personPoints(p)+'</span><span class="profile-level-lbl">Pontos de evolução</span></div>';
+    if(isAdmin){
+      html += '    <button class="btn btn-ghost btn-danger btn-sm" id="profRemove">Remover do time</button>';
     }
     html += '  </div>';
     html += '  <div class="profile-main">';
@@ -3191,11 +3192,8 @@
     }
     html += '      </div>';
     html += '      <div class="profile-header-meta">';
-    html += '        <div class="profile-level" title="Soma dos pontos das 8 pétalas + conquistas desbloqueadas"><span class="profile-level-num">'+personPoints(p)+'</span><span class="profile-level-lbl">Pontos</span></div>';
     if(isAdmin){
       html += '        <div class="profile-field birthday-field"><div style="width:100%;"><label>Aniversário</label><div style="display:flex;align-items:center;gap:8px;"><svg class="cake-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="16" height="8" rx="2"/><path d="M4 16h16"/><path d="M12 12V8"/><path d="M12 8c-1.1 0-1.5-.9-.9-1.9.6-.9.9-1.5.9-2.3 0 .8.3 1.4.9 2.3.6 1-.2 1.9-.9 1.9Z"/><path d="M8 12c0-1.1.55-1.85 1.3-2.4M16 12c0-1.1-.55-1.85-1.3-2.4"/></svg><input type="text" id="profBirthday" placeholder="DD/MM" value="'+(p.birthday?formatBirthday(p.birthday):'')+'"></div></div></div>';
-    } else if(p.birthday){
-      html += '        <div class="profile-field birthday-field"><div style="width:100%;"><label>Aniversário</label><div style="display:flex;align-items:center;gap:8px;color:var(--ink-muted);font-size:13px;">'+formatBirthday(p.birthday)+'</div></div></div>';
     }
     html += '        <button class="btn btn-ghost btn-sm" id="btnDownloadReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>Baixar relatório</button>';
     html += '      </div>';
