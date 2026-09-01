@@ -103,22 +103,22 @@
 
   .side-flyout{
     position:fixed;min-width:236px;max-height:min(70vh,420px);overflow-y:auto;
-    background:var(--surface);border:1px solid var(--ink);border-radius:var(--radius-m);
+    background:var(--ink);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius-m);
     padding:10px;
     opacity:0;visibility:hidden;transform:translateX(-6px);pointer-events:none;
     transition:opacity .18s var(--ease), transform .18s var(--ease), visibility .18s;z-index:60;
   }
   .side-flyout.is-open{opacity:1;visibility:visible;transform:translateX(0);pointer-events:auto;}
-  .flyout-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);font-weight:700;padding:5px 9px 8px;}
+  .flyout-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink-muted);font-weight:700;padding:5px 9px 8px;}
   .flyout-list{display:flex;flex-direction:column;gap:1px;}
   .flyout-item{
     display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:10px;cursor:pointer;
-    background:none;border:none;width:100%;text-align:left;color:var(--ink);transition:background .15s;
+    background:none;border:none;width:100%;text-align:left;color:var(--accent-ink);transition:background .15s;
   }
-  .flyout-item:hover, .flyout-item:focus-visible{background:var(--surface-3);}
+  .flyout-item:hover, .flyout-item:focus-visible{background:rgba(255,255,255,.1);}
   .flyout-item .avatar{width:26px;height:26px;font-size:10px;flex-shrink:0;}
   .flyout-item-name{font-size:12.5px;font-weight:600;display:block;}
-  .flyout-item-role{font-size:10.5px;color:var(--ink-muted);display:block;margin-top:-1px;}
+  .flyout-item-role{font-size:10.5px;color:var(--accent-ink-muted);display:block;margin-top:-1px;}
 
   .sidebar-foot{display:flex;flex-direction:column;align-items:stretch;gap:2px;padding-top:20px;margin-top:14px;width:100%;}
   .btn.side-action{
