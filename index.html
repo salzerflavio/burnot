@@ -102,14 +102,13 @@
   .side-item.active .side-label{color:#fff;font-weight:700;}
 
   .side-flyout{
-    position:absolute;left:calc(100% + 16px);top:0;min-width:236px;max-height:min(70vh,420px);overflow-y:auto;
+    position:fixed;min-width:236px;max-height:min(70vh,420px);overflow-y:auto;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--radius-m);
-    padding:10px;isolation:isolate;mix-blend-mode:normal;
-    opacity:0;visibility:hidden;transform:translateX(-6px);
+    padding:10px;
+    opacity:0;visibility:hidden;transform:translateX(-6px);pointer-events:none;
     transition:opacity .18s var(--ease), transform .18s var(--ease), visibility .18s;z-index:60;
   }
-  .side-item-wrap:hover .side-flyout,
-  .side-item-wrap:focus-within .side-flyout{opacity:1;visibility:visible;transform:translateX(0);}
+  .side-flyout.is-open{opacity:1;visibility:visible;transform:translateX(0);pointer-events:auto;}
   .flyout-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);font-weight:700;padding:5px 9px 8px;}
   .flyout-list{display:flex;flex-direction:column;gap:1px;}
   .flyout-item{
@@ -660,7 +659,6 @@
     .side-nav{flex-direction:row;flex:0 0 auto;gap:14px;}
     .side-divider{width:0;height:1px;margin:0 6px;}
     .side-item{flex-direction:row;gap:6px;padding:5px 2px;width:auto;}
-    .side-flyout{left:0;top:calc(100% + 8px);}
     .sidebar-foot{flex-direction:row;padding-top:0;margin-top:0;padding-left:18px;flex-shrink:0;width:auto;gap:12px;}
     .side-action{white-space:nowrap;width:auto;}
     .app-shell{padding:20px 16px 60px;}
@@ -792,10 +790,6 @@
         </span>
         <span class="side-label">Relatório de Horas</span>
       </button>
-      <div class="side-flyout" id="flyoutRelatorios">
-        <div class="flyout-title">Abrir relatório de</div>
-        <div class="flyout-list" id="flyoutRelatoriosList"></div>
-      </div>
     </div>
     <div class="side-item-wrap">
       <button class="side-item" data-view="regras" role="tab" aria-selected="false" title="Regras">
@@ -814,10 +808,6 @@
         </span>
         <span class="side-label">Time</span>
       </button>
-      <div class="side-flyout" id="flyoutTime">
-        <div class="flyout-title">Ver perfil de</div>
-        <div class="flyout-list" id="flyoutTimeList"></div>
-      </div>
     </div>
 
     <div class="side-divider" role="separator" aria-orientation="horizontal"></div>
@@ -842,6 +832,15 @@
     <div class="user-chip" id="userChip"></div>
   </div>
 </aside>
+
+<div class="side-flyout" id="flyoutRelatorios">
+  <div class="flyout-title">Abrir relatório de</div>
+  <div class="flyout-list" id="flyoutRelatoriosList"></div>
+</div>
+<div class="side-flyout" id="flyoutTime">
+  <div class="flyout-title">Ver perfil de</div>
+  <div class="flyout-list" id="flyoutTimeList"></div>
+</div>
 
 <div class="app-shell">
   <!-- CALENDÁRIO -->
@@ -3463,6 +3462,70 @@
     await sb.auth.signOut();
     window.location.reload();
   });
+
+  // Flyouts de navegação (Relatório de Horas / Time) vivem fora da sidebar no DOM
+  // de propósito: a sidebar tem mix-blend-mode:difference pra dar o contraste
+  // adaptativo do menu, e um flyout dentro dela herdava esse efeito, criando um
+  // "fantasma" esquisito em vez de uma caixa preta sólida. Como filho de .app-wrap
+  // (fora de .sidebar), o flyout renderiza normal — por isso o posicionamento é
+  // via JS (getBoundingClientRect) em vez de position:absolute relativo ao item.
+  (function setupSideFlyouts(){
+    var pairs = [
+      {wrapId:'navWrapRelatorios', flyoutId:'flyoutRelatorios'},
+      {wrapId:'navWrapTime', flyoutId:'flyoutTime'}
+    ];
+    var closeTimer = null;
+    function cancelClose(){ if(closeTimer){ clearTimeout(closeTimer); closeTimer = null; } }
+    function scheduleClose(flyout){
+      cancelClose();
+      closeTimer = setTimeout(function(){ flyout.classList.remove('is-open'); }, 160);
+    }
+    function positionFlyout(wrap, flyout){
+      var r = wrap.getBoundingClientRect();
+      var isStacked = window.innerWidth <= 860;
+      if(isStacked){
+        flyout.style.left = Math.round(r.left) + 'px';
+        flyout.style.top = Math.round(r.bottom + 8) + 'px';
+      } else {
+        flyout.style.left = Math.round(r.right + 16) + 'px';
+        flyout.style.top = Math.round(r.top) + 'px';
+      }
+    }
+    var openPair = null;
+    pairs.forEach(function(pair){
+      var wrap = document.getElementById(pair.wrapId);
+      var flyout = document.getElementById(pair.flyoutId);
+      if(!wrap || !flyout) return;
+      function open(){
+        if(flyout.style.display === 'none') return;
+        cancelClose();
+        positionFlyout(wrap, flyout);
+        pairs.forEach(function(other){
+          if(other.flyoutId !== pair.flyoutId){
+            var f = document.getElementById(other.flyoutId);
+            if(f) f.classList.remove('is-open');
+          }
+        });
+        flyout.classList.add('is-open');
+        openPair = pair;
+      }
+      function close(){ scheduleClose(flyout); }
+      wrap.addEventListener('mouseenter', open);
+      wrap.addEventListener('mouseleave', close);
+      wrap.addEventListener('focusin', open);
+      wrap.addEventListener('focusout', close);
+      flyout.addEventListener('mouseenter', cancelClose);
+      flyout.addEventListener('mouseleave', close);
+      flyout.addEventListener('focusin', cancelClose);
+      flyout.addEventListener('focusout', close);
+    });
+    window.addEventListener('resize', function(){
+      if(!openPair) return;
+      var wrap = document.getElementById(openPair.wrapId);
+      var flyout = document.getElementById(openPair.flyoutId);
+      if(wrap && flyout && flyout.classList.contains('is-open')) positionFlyout(wrap, flyout);
+    });
+  })();
 
   function applyRoleGating(){
     var isAdmin = currentUser.role === 'admin';
