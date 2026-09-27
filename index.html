@@ -986,19 +986,20 @@
       <div class="rules-card">
         <h2>O combinado</h2>
         <div class="rule"><span class="num">01</span><span>As coisas nunca vão ficar calmas o suficiente. <b>Peçam quando tiverem vontade.</b></span></div>
-        <div class="rule"><span class="num">02</span><span>Se já tiver alguém do <b>mesmo ofício que você ocupando o dia, não vai rolar. Três pessoas do time no mesmo dia também não.</b></span></div>
-        <div class="rule"><span class="num">03</span><span>Pedidos com, no mínimo, <b>uma semana de antecedência.</b></span></div>
-        <div class="rule"><span class="num">04</span><span>Só é possível pedir dois dias seguidos se <b>você tiver acumulado 4 (ou mais) dias.</b></span></div>
-        <div class="rule"><span class="num">05</span><span>Os melhores dias são os que não têm presencial. <b>Mas não é obrigatório se limitar a eles.</b></span></div>
-        <div class="rule"><span class="num">06</span><span>Antes de sair, <b>salve tudo no drive e faça um bom handover</b> pra quem for te cobrir.</span></div>
-        <div class="rule"><span class="num">07</span><span><b>Mantenha seu relatório sempre atualizado.</b> Virou noite ou trabalhou no fim de semana? Atualiza.</span></div>
-        <div class="rule"><span class="num">08</span><span><b>8h = 1 dayoff.</b> Seja responsável pra marcar e irresponsável pra curtir.</span></div>
+        <div class="rule"><span class="num">02</span><span>Se já tiver alguém do <b>mesmo ofício que você ocupando o dia, não vai rolar.</b></span></div>
+        <div class="rule"><span class="num">03</span><span>A bancada não pode ter <b>mais de 3 pessoas de day off na mesma semana.</b> Bateu o limite, a semana fecha pra novos pedidos — se organize.</span></div>
+        <div class="rule"><span class="num">04</span><span>Pedidos com, no mínimo, <b>uma semana de antecedência.</b></span></div>
+        <div class="rule"><span class="num">05</span><span>Só é possível pedir dois dias seguidos se <b>você tiver acumulado 4 (ou mais) dias.</b></span></div>
+        <div class="rule"><span class="num">06</span><span>Os melhores dias são os que não têm presencial. <b>Mas não é obrigatório se limitar a eles.</b></span></div>
+        <div class="rule"><span class="num">07</span><span>Antes de sair, <b>salve tudo no drive e faça um bom handover</b> pra quem for te cobrir.</span></div>
+        <div class="rule"><span class="num">08</span><span><b>Mantenha seu relatório sempre atualizado.</b> Virou noite ou trabalhou no fim de semana? Atualiza.</span></div>
+        <div class="rule"><span class="num">09</span><span><b>8h = 1 dayoff.</b> Seja responsável pra marcar e irresponsável pra curtir.</span></div>
       </div>
       <div class="rules-card">
         <h2>Como eu faço?</h2>
         <div class="rule"><span class="num">01</span><span>Avisa pra gente no <b>Slack</b> pra virar um pedido formal.</span></div>
-        <div class="rule"><span class="num">02</span><span>E já marca com a sua carinha com a <b>bordinha amarela</b> lá no calendário do mês.</span></div>
-        <div class="rule"><span class="num">03</span><span>Em no máximo 48h a gente vai validar a requisição colocando a bordinha da foto de verde. <b>Bordinha verde</b> pode gerar o invite. <b>Bordinha vermelha</b> fala com a gente porque deu algum b.o.</span></div>
+        <div class="rule"><span class="num">02</span><span>E já <b>clica no dia certinho lá no calendário do mês</b> pra marcar o pedido.</span></div>
+        <div class="rule"><span class="num">03</span><span>Em no máximo 48h a gente vai validar a requisição. <b>Ponto verde</b> é aprovado e já pode gerar o invite. <b>Ponto rosa (atenção)</b> fala com a gente porque deu algum b.o.</span></div>
         <div class="rule"><span class="num">04</span><span>Quando o dayoff for validado. <b>Crie um evento e marque os DCs, sua dupla, Rosana e Engel.</b></span></div>
       </div>
       <div class="rules-card danger-card" id="dangerZoneCard" style="display:none;">
@@ -2226,8 +2227,20 @@
      2) Dois dias seguidos só com 4+ dayoffs disponíveis (8h de hora-extra = 1 dayoff).
      3) Só 1 pedido novo por dia de uso do app, exceto quem tem 4+ disponíveis (aí pode 2). */
   function checkDayoffRules(personId, dateISO, excludeId){
-    // Admin pode validar/criar/editar qualquer day off sem passar pelas regras de auto-agendamento do time
-    // (essas regras existem pra guiar o pedido do colaborador, não pra travar a validação do admin).
+    // Limite de 3 day offs por semana na bancada inteira (dom-sáb). Vale pra qualquer um marcando,
+    // inclusive admin — é limite de cobertura de time, não regra de auto-agendamento individual.
+    var weekDate = parseISO(dateISO);
+    var weekStart = shiftDateISO(dateISO, -weekDate.getDay());
+    var weekEnd = shiftDateISO(dateISO, 6 - weekDate.getDay());
+    var weekCount = state.dayoffs.filter(function(d){
+      return d.id!==excludeId && d.status!=='flag' && d.date>=weekStart && d.date<=weekEnd;
+    }).length;
+    if(weekCount >= 3){
+      return {blocked:true, message:'Essa semana já bateu o limite de 3 day offs na bancada. Escolha outra semana.'};
+    }
+
+    // Admin pode validar/criar/editar qualquer day off sem passar pelas demais regras de auto-agendamento
+    // do time (essas regras existem pra guiar o pedido do colaborador, não pra travar a validação do admin).
     if(currentUser.role === 'admin') return {blocked:false};
     var person = state.team.find(function(p){ return p.id===personId; });
     if(!person) return {blocked:false};
