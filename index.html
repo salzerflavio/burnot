@@ -3636,10 +3636,10 @@
       if(timeBtn) timeBtn.setAttribute('title', timeText);
     }
 
-    // "Meu Gestor" (colaborador) vira "Meu Perfil" pro admin — é onde ele vê e responde os recados do time.
+    // "Meu Gestor" (colaborador) vira "Meus Recados" pro admin — é onde ele vê e responde os recados do time.
     var mgBtn = document.getElementById('navMeuGestorBtn');
     var mgLabel = document.getElementById('navMeuGestorLabel');
-    var mgText = isAdmin ? 'Meu Perfil' : 'Meu Gestor';
+    var mgText = isAdmin ? 'Meus Recados' : 'Meu Gestor';
     if(mgLabel) mgLabel.textContent = mgText;
     if(mgBtn) mgBtn.setAttribute('title', mgText);
     var mgHeadTitle = document.getElementById('mgHeadTitle');
