@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Burnot</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -145,6 +146,8 @@
   .btn-ghost{background:transparent;border-color:transparent;color:var(--ink-secondary);}
   .btn-ghost:hover{background:var(--ink);color:var(--accent-ink);border-color:var(--ink);}
   .btn-danger{color:var(--status-flag);}
+  .danger-card{border-color:rgba(216,69,69,.35)!important;background:var(--status-flag-bg)!important;}
+  .btn-danger-solid{background:var(--status-flag);color:#fff;border-color:var(--status-flag);}
   .btn-sm{padding:6px 11px;font-size:12px;}
   .btn svg{width:14px;height:14px;flex-shrink:0;}
 
@@ -598,6 +601,9 @@
   @keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
   .modal h3{font-family:var(--font-display);font-weight:700;font-size:22px;margin:0 0 18px;text-transform:uppercase;}
   .field{margin-bottom:14px;}
+  .invite-field{border-top:1px solid var(--border-strong);padding-top:14px;margin-top:2px;}
+  .invite-sent{font-size:12.5px;color:var(--ink-muted);}
+  .invite-form{display:flex;gap:8px;}
   .field label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-muted);font-weight:600;margin-bottom:6px;}
   .field input, .field select, .field textarea{
     width:100%;background:var(--surface);border:1px solid var(--border-strong);color:var(--ink);border-radius:var(--radius-s);
@@ -916,6 +922,13 @@
         <div class="rule"><span class="num">03</span><span>Em no máximo 48h a gente vai validar a requisição colocando a bordinha da foto de verde. <b>Bordinha verde</b> pode gerar o invite. <b>Bordinha vermelha</b> fala com a gente porque deu algum b.o.</span></div>
         <div class="rule"><span class="num">04</span><span>Quando o dayoff for validado. <b>Crie um evento e marque os DCs, sua dupla, Rosana e Engel.</b></span></div>
       </div>
+      <div class="rules-card danger-card" id="dangerZoneCard" style="display:none;">
+        <h2>Zona de risco</h2>
+        <div class="rule"><span>Isso apaga <b>todos</b> os day offs e lançamentos de hora extra já registrados, do time inteiro. Não tem como desfazer. Use quando for começar um novo ciclo de controle manual.</span></div>
+        <button class="btn btn-danger btn-ghost btn-sm" id="btnResetData" style="margin-top:10px;">Zerar day offs e horas extras</button>
+        <div class="rule" style="margin-top:16px;"><span>Isso apaga <b>todas</b> as sessões e ideias do Big Council, de todas as duplas. Não tem como desfazer. Use pra tirar os dados de teste antes de começar de verdade.</span></div>
+        <button class="btn btn-danger btn-ghost btn-sm" id="btnResetBc" style="margin-top:10px;">Zerar Big Council</button>
+      </div>
     </div>
   </section>
 
@@ -975,12 +988,57 @@
       <label for="doNote">Nota (opcional)</label>
       <input type="text" id="doNote" placeholder="ex: cobertura por Fill, handover no drive">
     </div>
+    <div class="field invite-field" id="doInviteWrap" style="display:none;">
+      <div class="invite-sent" id="doInviteSent" style="display:none;"><span id="doInviteSentText">Convite enviado.</span></div>
+      <div class="invite-form" id="doInviteForm">
+        <input type="text" id="doInviteEmails" placeholder="emails pra convidar, separados por vírgula" style="flex:1;">
+        <button class="btn btn-ghost" id="doSendInvite" type="button">Enviar convite</button>
+      </div>
+    </div>
     <div class="modal-alert" id="doAlert"><span class="ico">⚠️</span><span id="doAlertText"></span></div>
     <div class="modal-actions">
       <button class="btn btn-danger btn-ghost" id="doDelete" style="display:none;">Excluir</button>
       <div style="margin-left:auto;display:flex;gap:8px;">
         <button class="btn btn-ghost" id="doCancel">Cancelar</button>
         <button class="btn btn-primary" id="doSave">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: zerar day offs e horas extras -->
+<div class="modal-backdrop" id="resetDataBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="resetDataTitle">
+    <h3 id="resetDataTitle">Zerar day offs e horas extras</h3>
+    <p style="font-size:12.5px;color:var(--ink-muted);margin:-6px 0 16px;line-height:1.4;">Isso apaga permanentemente todos os day offs e lançamentos de hora extra do time inteiro. Não afeta time, conquistas, atualizações, férias ou o Big Council.</p>
+    <div class="field">
+      <label for="resetConfirmInput">Digite ZERAR pra confirmar</label>
+      <input type="text" id="resetConfirmInput" placeholder="ZERAR" autocomplete="off">
+    </div>
+    <div class="modal-alert" id="resetAlert"><span class="ico">⚠️</span><span id="resetAlertText"></span></div>
+    <div class="modal-actions">
+      <div style="margin-left:auto;display:flex;gap:8px;">
+        <button class="btn btn-ghost" id="resetCancel">Cancelar</button>
+        <button class="btn btn-danger-solid" id="resetConfirmBtn" disabled>Zerar tudo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: zerar big council -->
+<div class="modal-backdrop" id="resetBcBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="resetBcTitle">
+    <h3 id="resetBcTitle">Zerar Big Council</h3>
+    <p style="font-size:12.5px;color:var(--ink-muted);margin:-6px 0 16px;line-height:1.4;">Isso apaga permanentemente todas as sessões e ideias do Big Council, de todas as duplas. Não afeta day offs, horas extras, time ou conquistas.</p>
+    <div class="field">
+      <label for="resetBcConfirmInput">Digite ZERAR pra confirmar</label>
+      <input type="text" id="resetBcConfirmInput" placeholder="ZERAR" autocomplete="off">
+    </div>
+    <div class="modal-alert" id="resetBcAlert"><span class="ico">⚠️</span><span id="resetBcAlertText"></span></div>
+    <div class="modal-actions">
+      <div style="margin-left:auto;display:flex;gap:8px;">
+        <button class="btn btn-ghost" id="resetBcCancel">Cancelar</button>
+        <button class="btn btn-danger-solid" id="resetBcConfirmBtn" disabled>Zerar tudo</button>
       </div>
     </div>
   </div>
@@ -1574,7 +1632,7 @@
 
     // dayoffs: linhas completas que a RLS liberou (admin = todo mundo; colaborador = só as próprias)
     var myDayoffs = dayoffRows.map(function(d){
-      return {id:d.id, personId:d.person_id, date:d.date, status:d.status, note:d.note||'', createdAt:d.created_at};
+      return {id:d.id, personId:d.person_id, date:d.date, status:d.status, note:d.note||'', createdAt:d.created_at, calendarEventId:d.calendar_event_id||null, calendarEventSentAt:d.calendar_event_sent_at||null};
     });
     if(isAdmin){
       state.dayoffs = myDayoffs;
@@ -1656,6 +1714,13 @@
     t.classList.add('show');
     clearTimeout(toast._h);
     toast._h = setTimeout(function(){ t.classList.remove('show'); }, 3200);
+  }
+
+  /* Registra uma notificação pra pessoa (a tabela já existe; o painel de notificações fica pra depois). */
+  async function createNotification(personId, type, title, message, relatedId){
+    try{
+      await sb.from('notifications').insert({person_id:personId, type:type, title:title, message:message, related_id: relatedId||null});
+    }catch(err){ /* não bloqueia o fluxo principal por causa de notificação */ }
   }
 
   /* ---------------- Sidebar / views ---------------- */
@@ -1985,10 +2050,34 @@
     // Se não dá pra salvar (colaborador vendo um day off já existente), trava data/nota pra não parecer editável.
     document.getElementById('doDate').disabled = !canSave;
     document.getElementById('doNote').disabled = !canSave;
+    refreshInviteSection(entry);
     backdrop.classList.add('open');
     sel.focus();
   }
-  function closeDayoffModal(){ backdrop.classList.remove('open'); editingDayoff = null; hideDoAlert(); }
+  function closeDayoffModal(){ backdrop.classList.remove('open'); editingDayoff = null; hideDoAlert(); document.getElementById('doInviteWrap').style.display = 'none'; }
+
+  /* Convite do Google Calendar: só aparece quando o day off já está aprovado. */
+  function refreshInviteSection(entry){
+    var wrap = document.getElementById('doInviteWrap');
+    if(!entry || currentUser.role !== 'admin' || entry.status !== 'approved' || entry.readOnly){
+      wrap.style.display = 'none';
+      return;
+    }
+    wrap.style.display = '';
+    var sentBox = document.getElementById('doInviteSent');
+    var form = document.getElementById('doInviteForm');
+    if(entry.calendarEventId){
+      sentBox.style.display = '';
+      form.style.display = 'none';
+      document.getElementById('doInviteSentText').textContent = 'Convite enviado.';
+    } else {
+      sentBox.style.display = 'none';
+      form.style.display = '';
+      sb.from('dayoff_invitees').select('email').eq('dayoff_id', entry.id).then(function(res){
+        if(res.data && res.data.length) document.getElementById('doInviteEmails').value = res.data.map(function(r){ return r.email; }).join(', ');
+      });
+    }
+  }
 
   function hideDoAlert(){
     document.getElementById('doAlert').classList.remove('show','warn','info');
@@ -2005,6 +2094,9 @@
      2) Dois dias seguidos só com 4+ dayoffs disponíveis (8h de hora-extra = 1 dayoff).
      3) Só 1 pedido novo por dia de uso do app, exceto quem tem 4+ disponíveis (aí pode 2). */
   function checkDayoffRules(personId, dateISO, excludeId){
+    // Admin pode validar/criar/editar qualquer day off sem passar pelas regras de auto-agendamento do time
+    // (essas regras existem pra guiar o pedido do colaborador, não pra travar a validação do admin).
+    if(currentUser.role === 'admin') return {blocked:false};
     var person = state.team.find(function(p){ return p.id===personId; });
     if(!person) return {blocked:false};
 
@@ -2082,25 +2174,78 @@
     var btn = this;
     btn.disabled = true;
     try{
+      var entryRef, prevStatus;
       if(editingDayoff){
         var res = await sb.from('dayoffs').update({person_id:personId, date:date, status:selStatus, note:note}).eq('id', editingDayoff);
         if(res.error) throw res.error;
-        var e = state.dayoffs.find(function(x){ return x.id===editingDayoff; });
-        if(e){ e.personId=personId; e.date=date; e.status=selStatus; e.note=note; }
+        entryRef = state.dayoffs.find(function(x){ return x.id===editingDayoff; });
+        if(entryRef){ prevStatus = entryRef.status; entryRef.personId=personId; entryRef.date=date; entryRef.status=selStatus; entryRef.note=note; }
       } else {
         var ins = await sb.from('dayoffs').insert({person_id:personId, date:date, status:selStatus, note:note}).select().single();
         if(ins.error) throw ins.error;
-        state.dayoffs.push({id:ins.data.id, personId:ins.data.person_id, date:ins.data.date, status:ins.data.status, note:ins.data.note||'', createdAt:ins.data.created_at});
+        entryRef = {id:ins.data.id, personId:ins.data.person_id, date:ins.data.date, status:ins.data.status, note:ins.data.note||'', createdAt:ins.data.created_at, calendarEventId:null, calendarEventSentAt:null};
+        state.dayoffs.push(entryRef);
+        prevStatus = null;
       }
-      closeDayoffModal();
       renderCalendar();
       if(document.getElementById('view-horas').classList.contains('active')) renderHoras();
+      // Assim que o admin aprova, deixa o modal aberto e abre a opção de mandar o convite do Google Calendar.
+      if(currentUser.role === 'admin' && selStatus === 'approved' && selStatus !== prevStatus && entryRef && !entryRef.calendarEventId){
+        refreshInviteSection(entryRef);
+        if(check.notice){ toast(check.notice, 'success'); } else { toast('Day off aprovado.'); }
+        btn.disabled = false;
+        return;
+      }
+      closeDayoffModal();
       if(check.notice){ toast(check.notice, 'success'); } else { toast('Day off salvo.'); }
     }catch(err){
       showDoAlert('Não consegui salvar: ' + (err.message || 'sem permissão pra essa ação.'), 'warn');
     }
     btn.disabled = false;
   });
+
+  document.getElementById('doSendInvite').addEventListener('click', async function(){
+    if(!editingDayoff) return;
+    var entry = state.dayoffs.find(function(x){ return x.id===editingDayoff; });
+    if(!entry) return;
+    var emailsRaw = document.getElementById('doInviteEmails').value.trim();
+    if(!emailsRaw){ showDoAlert('Coloca pelo menos um email.', 'warn'); return; }
+    var emails = emailsRaw.split(',').map(function(e){ return e.trim(); }).filter(Boolean);
+    var btn = this;
+    btn.disabled = true;
+    hideDoAlert();
+    try{
+      var invitePerson = personById(entry.personId);
+      var session = await sb.auth.getSession();
+      var token = session.data.session.access_token;
+      var resp = await fetch(SUPABASE_URL + '/functions/v1/send-dayoff-invite', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+token},
+        body: JSON.stringify({
+          summary: 'Day off — ' + (invitePerson ? invitePerson.name : ''),
+          date: entry.date,
+          allDay: true,
+          attendees: emails,
+          description: entry.note ? ('Nota: ' + entry.note) : ''
+        })
+      });
+      var body = await resp.json();
+      if(!resp.ok) throw new Error(body.error || 'Falha ao enviar convite.');
+      var upd = await sb.from('dayoffs').update({calendar_event_id: body.eventId, calendar_event_sent_at: new Date().toISOString()}).eq('id', entry.id);
+      if(upd.error) throw upd.error;
+      entry.calendarEventId = body.eventId;
+      entry.calendarEventSentAt = new Date().toISOString();
+      await sb.from('dayoff_invitees').delete().eq('dayoff_id', entry.id);
+      if(emails.length) await sb.from('dayoff_invitees').insert(emails.map(function(e){ return {dayoff_id: entry.id, email: e}; }));
+      createNotification(entry.personId, 'dayoff', 'Convite enviado', 'Um convite do seu day off de '+formatBR(entry.date)+' foi enviado pro Google Calendar.');
+      refreshInviteSection(entry);
+      toast('Convite enviado.');
+    }catch(err){
+      showDoAlert('Não consegui enviar o convite: ' + (err.message || 'tenta de novo.'), 'warn');
+    }
+    btn.disabled = false;
+  });
+
   document.getElementById('doDelete').addEventListener('click', async function(){
     if(!editingDayoff){ closeDayoffModal(); return; }
     var btn = this;
@@ -2846,13 +2991,18 @@
         reader.onload = function(ev){ p.photo = ev.target.result; savePersonField(p.id, {photo:p.photo}); renderTimeGrid(); };
         reader.readAsDataURL(file);
       });
-      card.querySelector('[data-del]').addEventListener('click', function(ev){
+      card.querySelector('[data-del]').addEventListener('click', async function(ev){
         ev.stopPropagation();
         if(!confirm('Remover '+p.name+' do time? Isso não apaga horas/day offs já registrados.')) return;
-        state.team = state.team.filter(function(t){ return t.id!==p.id; });
-        
-        renderTimeGrid();
-        renderFlyouts();
+        try{
+          var res = await sb.from('people').delete().eq('id', p.id);
+          if(res.error) throw res.error;
+          state.team = state.team.filter(function(t){ return t.id!==p.id; });
+          renderTimeGrid();
+          renderFlyouts();
+        }catch(err){
+          toast('Não consegui remover: ' + (err.message || 'sem permissão pra essa ação.'));
+        }
       });
       grid.appendChild(card);
     });
@@ -2860,12 +3010,16 @@
     var addCard = document.createElement('div');
     addCard.className = 'add-card';
     addCard.innerHTML = '<span class="plus">+</span><span>Adicionar pessoa</span>';
-    addCard.addEventListener('click', function(){
-      var newP = {id:uid(), name:'Novo membro', role:'', photo:null, birthday:null, bio:'', feedback:{}};
-      state.team.push(newP);
-      
-      renderTimeGrid();
-      renderFlyouts();
+    addCard.addEventListener('click', async function(){
+      try{
+        var res = await sb.from('people').insert({id:uid(), name:'Novo membro', role:'', photo:null, birthday:null, bio:''}).select().single();
+        if(res.error) throw res.error;
+        state.team.push({id:res.data.id, name:res.data.name, role:res.data.role||'', photo:res.data.photo||null, birthday:res.data.birthday||null, bio:res.data.bio||'', feedback:{}});
+        renderTimeGrid();
+        renderFlyouts();
+      }catch(err){
+        toast('Não consegui adicionar: ' + (err.message || 'sem permissão pra essa ação.'));
+      }
     });
     grid.appendChild(addCard);
     renderFlyouts();
@@ -3246,13 +3400,18 @@
         p.birthday = norm;
         savePersonField(p.id, {birthday: p.birthday});
       });
-      document.getElementById('profRemove').addEventListener('click', function(){
+      document.getElementById('profRemove').addEventListener('click', async function(){
         if(!confirm('Remover '+p.name+' do time? Isso não apaga horas/day offs já registrados.')) return;
-        state.team = state.team.filter(function(t){ return t.id!==p.id; });
-
-        timeProfileId = null;
-        renderTime();
-        renderFlyouts();
+        try{
+          var res = await sb.from('people').delete().eq('id', p.id);
+          if(res.error) throw res.error;
+          state.team = state.team.filter(function(t){ return t.id!==p.id; });
+          timeProfileId = null;
+          renderTime();
+          renderFlyouts();
+        }catch(err){
+          toast('Não consegui remover: ' + (err.message || 'sem permissão pra essa ação.'));
+        }
       });
     }
     if(canEditPhoto){
@@ -3530,6 +3689,8 @@
   function applyRoleGating(){
     var isAdmin = currentUser.role === 'admin';
     document.getElementById('btnCreateAccess').style.display = isAdmin ? '' : 'none';
+    var dangerCard = document.getElementById('dangerZoneCard');
+    if(dangerCard) dangerCard.style.display = isAdmin ? '' : 'none';
     var chip = document.getElementById('userChip');
     chip.innerHTML = '<span>'+escapeHtml(currentUser.email||'')+'</span><span class="u-role">'+(isAdmin?'Admin':'Time')+'</span>';
 
@@ -3653,6 +3814,106 @@
       showCaAlert('Não consegui criar o acesso: ' + err.message, 'warn');
     }
     btn.disabled = false;
+  });
+
+  /* ---------------- Zona de risco: zerar day offs e horas extras ---------------- */
+  var resetBackdrop = document.getElementById('resetDataBackdrop');
+  function hideResetAlert(){
+    document.getElementById('resetAlert').classList.remove('show','warn','info');
+  }
+  function showResetAlert(message, tone){
+    document.getElementById('resetAlertText').textContent = message;
+    var al = document.getElementById('resetAlert');
+    al.classList.remove('warn','info');
+    al.classList.add('show', tone || 'warn');
+  }
+  function openResetDataModal(){
+    document.getElementById('resetConfirmInput').value = '';
+    document.getElementById('resetConfirmBtn').disabled = true;
+    hideResetAlert();
+    resetBackdrop.classList.add('open');
+  }
+  function closeResetDataModal(){
+    resetBackdrop.classList.remove('open');
+  }
+  var btnResetData = document.getElementById('btnResetData');
+  if(btnResetData) btnResetData.addEventListener('click', openResetDataModal);
+  document.getElementById('resetCancel').addEventListener('click', closeResetDataModal);
+  resetBackdrop.addEventListener('click', function(e){ if(e.target === resetBackdrop) closeResetDataModal(); });
+  document.getElementById('resetConfirmInput').addEventListener('input', function(e){
+    document.getElementById('resetConfirmBtn').disabled = e.target.value.trim().toUpperCase() !== 'ZERAR';
+  });
+  document.getElementById('resetConfirmBtn').addEventListener('click', async function(){
+    if(currentUser.role !== 'admin') return;
+    if(document.getElementById('resetConfirmInput').value.trim().toUpperCase() !== 'ZERAR') return;
+    var btn = this;
+    btn.disabled = true;
+    hideResetAlert();
+    try{
+      var resOt = await sb.from('overtime').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if(resOt.error) throw resOt.error;
+      var resDo = await sb.from('dayoffs').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if(resDo.error) throw resDo.error;
+      state.overtime = [];
+      state.dayoffs = [];
+      closeResetDataModal();
+      renderCalendar();
+      if(document.getElementById('view-horas').classList.contains('active')) renderHoras();
+      if(document.getElementById('view-time').classList.contains('active')) renderTime();
+      toast('Day offs e horas extras zerados.');
+    }catch(err){
+      showResetAlert('Não consegui zerar: ' + (err.message || 'sem permissão pra essa ação.'), 'warn');
+      btn.disabled = false;
+    }
+  });
+
+  /* ---------------- Zona de risco: zerar Big Council ---------------- */
+  var resetBcBackdrop = document.getElementById('resetBcBackdrop');
+  function hideResetBcAlert(){
+    document.getElementById('resetBcAlert').classList.remove('show','warn','info');
+  }
+  function showResetBcAlert(message, tone){
+    document.getElementById('resetBcAlertText').textContent = message;
+    var al = document.getElementById('resetBcAlert');
+    al.classList.remove('warn','info');
+    al.classList.add('show', tone || 'warn');
+  }
+  function openResetBcModal(){
+    document.getElementById('resetBcConfirmInput').value = '';
+    document.getElementById('resetBcConfirmBtn').disabled = true;
+    hideResetBcAlert();
+    resetBcBackdrop.classList.add('open');
+  }
+  function closeResetBcModal(){
+    resetBcBackdrop.classList.remove('open');
+  }
+  var btnResetBc = document.getElementById('btnResetBc');
+  if(btnResetBc) btnResetBc.addEventListener('click', openResetBcModal);
+  document.getElementById('resetBcCancel').addEventListener('click', closeResetBcModal);
+  resetBcBackdrop.addEventListener('click', function(e){ if(e.target === resetBcBackdrop) closeResetBcModal(); });
+  document.getElementById('resetBcConfirmInput').addEventListener('input', function(e){
+    document.getElementById('resetBcConfirmBtn').disabled = e.target.value.trim().toUpperCase() !== 'ZERAR';
+  });
+  document.getElementById('resetBcConfirmBtn').addEventListener('click', async function(){
+    if(currentUser.role !== 'admin') return;
+    if(document.getElementById('resetBcConfirmInput').value.trim().toUpperCase() !== 'ZERAR') return;
+    var btn = this;
+    btn.disabled = true;
+    hideResetBcAlert();
+    try{
+      var resIdeas = await sb.from('big_council_ideas').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if(resIdeas.error) throw resIdeas.error;
+      var resSessions = await sb.from('big_council_sessions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if(resSessions.error) throw resSessions.error;
+      state.bigCouncil = [];
+      state.bigCouncilSessions = {};
+      closeResetBcModal();
+      if(document.getElementById('view-bigcouncil') && document.getElementById('view-bigcouncil').classList.contains('active')) renderBigCouncil();
+      toast('Big Council zerado.');
+    }catch(err){
+      showResetBcAlert('Não consegui zerar: ' + (err.message || 'sem permissão pra essa ação.'), 'warn');
+      btn.disabled = false;
+    }
   });
 })();
 </script>
