@@ -136,13 +136,13 @@
   .sidebar-top{display:flex;flex-direction:row;align-items:center;gap:9px;padding:2px 4px 30px;text-align:left;}
   .sidebar-logo{height:22px;}
   .sidebar-product{display:none;}
-  .theme-toggle{display:flex;align-items:center;gap:3px;margin-left:auto;flex-shrink:0;}
+  .theme-toggle{display:flex;align-items:center;gap:8px;flex-shrink:0;padding:9px 4px 4px;}
   .theme-toggle-btn{
     width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
     background:transparent;border:none;padding:0;cursor:pointer;color:#7a7a7a;
     transition:color .2s var(--ease);
   }
-  .theme-toggle-btn svg{width:12px;height:12px;}
+  .theme-toggle-btn svg{width:13px;height:13px;}
   .theme-toggle-btn:hover{color:#fff;}
   .theme-toggle-btn.active{color:#fff;}
   .side-nav{display:flex;flex-direction:column;gap:1px;flex:1;align-items:stretch;}
@@ -850,14 +850,6 @@
   <div class="sidebar-top">
     <img class="brand-logo sidebar-logo" alt="Burnot">
     <div class="sidebar-product">Burnot</div>
-    <div class="theme-toggle" role="group" aria-label="Tema do site">
-      <button type="button" class="theme-toggle-btn" id="themeBtnLight" data-theme-choice="light" title="Tema claro" aria-label="Tema claro" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
-      </button>
-      <button type="button" class="theme-toggle-btn" id="themeBtnDark" data-theme-choice="dark" title="Tema escuro (Midnight)" aria-label="Tema escuro (Midnight)" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.4 14.7A8.5 8.5 0 1 1 9.3 3.6a7 7 0 0 0 11.1 11.1Z"/></svg>
-      </button>
-    </div>
   </div>
   <nav class="side-nav" aria-label="Navegação principal">
     <div class="side-item-wrap">
@@ -914,6 +906,14 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
       <span class="btn-label">Sair</span>
     </button>
+    <div class="theme-toggle" role="group" aria-label="Tema do site">
+      <button type="button" class="theme-toggle-btn" id="themeBtnLight" data-theme-choice="light" title="Tema claro" aria-label="Tema claro" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+      </button>
+      <button type="button" class="theme-toggle-btn" id="themeBtnDark" data-theme-choice="dark" title="Tema escuro (Midnight)" aria-label="Tema escuro (Midnight)" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.4 14.7A8.5 8.5 0 1 1 9.3 3.6a7 7 0 0 0 11.1 11.1Z"/></svg>
+      </button>
+    </div>
     <div class="user-chip" id="userChip"></div>
   </div>
 </aside>
